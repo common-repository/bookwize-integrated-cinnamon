@@ -1,0 +1,48 @@
+<section class="bookwize-membership-container bookwize-reservation" data-bind="with: membership">
+    <div class="bookwize-reservation-login">
+
+                <header class="text-center main-title">
+                    <h1>
+                        <span data-bind="translate:'resetPassword'"></span>
+                    </h1>
+                </header>
+
+                <div class="form">
+                    <div data-bind="visible: isAuthenticated()==false && message().severity() != 'success'">
+                    
+
+                            <div class="bookwize-row required bookwize-form-background" data-bind="css:{'up':newPassword() !== '' && newPassword() !== undefined}">
+                                <label for="newPassword" data-bind="translate: 'newPassword'" class="bookwize-label"></label>
+                                <input id="newPassword" data-bind="value: newPassword" type="password" name="newPassword" class="bookwize-form-input editable">
+                            </div>
+                  
+                            <div class="bookwize-row required  bookwize-form-background" data-bind="css:{'up':retypePassword() !== '' && retypePassword() !== undefined}">
+                                <label for="retypePassword" data-bind="translate: 'retypePassword'" class="bookwize-label"></label>
+                                <input id="retypePassword" data-bind="value: retypePassword" type="password" name="retypePassword" class="bookwize-form-input editable">
+                                <div data-bind='component: {name: "passwordstrength-widget", params: { value: newPassword()}}'></div>
+                            </div>
+                     
+
+                        <div class="password-messages" data-bind="visible: newPassword() != null">
+                           
+                            <ul data-bind="foreach: passwordMessage, visible: newPassword() != null ">
+                                <li data-bind="translate: $data" class="password-messages-element"></li>
+                            </ul>
+                        </div>
+                      
+                        <button class="bookwize-button bookwize-button-primary margin-top"
+                                data-bind="click: resetPassword, translate: 'Change Password', enable: isPasswordValid"></button>
+                    </div>
+                    <div data-bind="visible: hasMessage(), with: message()">
+                        <div class="bookwize-message margin-top">
+                            <p data-bind="css: 'alert-' + (severity() == 'error' ? 'danger' : severity())">
+                                <span data-bind="translate: text()"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+  
+    </div>
+</section>
+

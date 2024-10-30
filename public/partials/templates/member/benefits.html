@@ -1,0 +1,69 @@
+<section class="bookwize-membership-container" data-bind="with: membership">
+    <div data-bind="if: isAuthenticated">
+        
+        <div class="grid">
+            <div class="grid__item three-twelfths">
+
+                <div class="bookwize-submenu">
+                   
+                    <div class="bookwize-navbar-submenu">
+                        
+                        <div class="bookwize-nav nav-benefits" data-bind="click: function(){$parent.setStep('benefits')}">
+                            <span data-bind="translate: 'benefits'"></span><i class="material-icons">&#xE315;</i>
+                        </div>
+                        <div class="bookwize-nav nav-account" data-bind="click: function(){$parent.setStep('account')}">
+                            <span data-bind="translate: 'account'"></span><i class="material-icons">&#xE315;</i>
+                        </div>
+                        <div class="bookwize-nav nav-reservations" data-bind="click: function(){$parent.setStep('reservations')}">
+                            <span data-bind="translate: 'reservations'"></span><i class="material-icons">&#xE315;</i>
+                        </div>
+                        <div class="bookwize-nav nav-reservation" data-bind="click: logout, translate: 'logout'"></div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="grid__item desk--eight-twelfths nine-twelfths push--desk--one-twelfth">
+                
+                <header class="main-title">
+
+                    <span data-bind="translate: 'welcomeBack'"></span>
+                    <span data-bind="text: customer().firstName()"></span>
+
+                </header>
+               
+                <div class="row">
+                    <div class="members-text" data-bind="translate: 'welcomeText'"></div>
+                    <!--ko if:IBE.Config.webCheckIn-->
+                    <!--ko if:webCheckInIsActive()-->
+
+                    <div class="bookwize-info bookwize-info-clickable margin-bottom" data-bind="translate:'webCheckinActive', click:function(){$root.setStep('reservations')}"></div>
+                    <!-- /ko -->
+                    <!-- /ko -->
+                    <div data-bind="foreach: customer().offers" class="columns">
+                        <div class="members-benefits">
+                            <div class="grid">
+                                <div class="grid__item" data-bind="css:{'one-half':havePhoto()}">
+                                    <!-- ko if: havePhoto() -->
+                                    <div data-bind="backgroundImage:photos[0].url(), backgroundImageOptions: {height:500}" class="members-benefits-image"></div>
+                                    <!-- /ko -->
+                                </div>
+                                <div class="grid__item" data-bind="css:{'one-half':havePhoto()}">
+                                    <div class="members-benefits-content">
+                                        <span class="bookwize-room-badge bookwize-room-badge-red" data-bind="visible: membershipLevels().length > 0, translate: 'exclusive'"></span>
+
+                                        <div data-bind="text:name" class="member-benefits-title  main-title"></div>
+
+                                        <div data-bind="html:description" class="members-text"></div>
+                                        <a class="bookwize-button bookwize-button-primary" data-bind="translate: 'button.Book'" href="?page=1"></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

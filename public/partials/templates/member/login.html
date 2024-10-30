@@ -1,0 +1,80 @@
+<section class="bookwize-reservation bookwize-membership-container" data-bind="with:membership, visible: !membership.isAuthenticated()">
+
+    <div class="container" data-bind="visible: !membership.resetpasswordShow()">
+
+
+        <div class="bookwize-reservation-login">
+            <header class="text-center main-title">
+                <span data-bind="translate:'loginTitle'"></span>
+            </header>
+
+            <div class="bookwize-membership-text" data-bind="translate:'loginText'"></div>
+            <form role="form" method="post" data-bind="visible:isMember() <= 0">
+                <div class="bookwize-form-row required bookwize-form-background" data-bind="css:{'up':username() !== '' && username() !== undefined}">
+                    <label for="email" data-bind="translate: 'email'" class="bookwize-label"></label>
+                    <input type="text" id="email" data-bind="value: username" class="bookwize-form-input editable" />
+                </div>
+                <button class="bookwize-button bookwize-button-edit" data-bind="click: memberEmailExists, translate: 'checkEmail', visible:isMember() <= 0, enable: ready()"></button>
+
+            </form>
+            <form role="form" method="post" data-bind="visible:isMember() > 0">
+                <div class="bookwize-form-row required bookwize-form-background" data-bind="css:{'up':username() !== '' && username() !== undefined}">
+                    <label for="email" data-bind="translate: 'email'" class="bookwize-label"></label>
+                    <input type="text" id="email" data-bind="value: username" class="bookwize-form-input editable" />
+                </div>
+
+                <div class="bookwize-form-row required bookwize-form-background" data-bind="visible:isMember() >0, css:{'up':password() !== '' && password() !== undefined}">
+                    <label for="password" data-bind="translate: 'password'" class="bookwize-label"></label>
+                    <input type="password" id="password" class="bookwize-form-input editable" data-bind="value: password" />
+                </div>
+                <div data-bind="visible: hasMessage(), with: message()">
+                    <div class="bookwize-message margin-bottom">
+                        <p data-bind="css: 'alert-' + (severity() == 'error' ? 'danger' : severity())">
+                            <span data-bind="translate: 'wrongPassword'"></span>
+                        </p>
+                    </div>
+                </div>
+                <button class="bookwize-button bookwize-button-edit" data-bind="click:login, translate: 'login', visible:isMember() > 0, enable: ready()"></button>
+                <div class="bookwize-membership-link" data-bind="visible:isMember() > 0">
+                    <div data-bind="translate:'forgotPassword', click:function(){resetPasswordDisplay()}"> </div>
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+    <div class="container" data-bind="visible: membership.resetpasswordShow()">
+        <div class="bookwize-reservation-login">
+            <header class="text-center main-title margin-bottom">
+                <span data-bind="translate:'forgotPassword'"></span>
+            </header>
+
+            <div class="form">
+
+                <div class="bookwize-form-row required bookwize-form-background" data-bind="css:{'up':username() !== '' && username() !== undefined}">
+                    <label for="username" data-bind="translate: 'username'" class="bookwize-label"></label>
+                    <input type="text" id="username" class="bookwize-form-input editable" data-bind="value: username" />
+                </div>
+                <!-- ko with:membership -->
+                <div data-bind="if: message().severity() !== ''">
+                    <div class="bookwize-message margin-top margin-bottom" data-bind="with: message()">
+                        <div data-bind="visible:severity() === 'success', css: 'alert-' + (severity() == 'error' ? 'danger' : severity())">
+
+                            <span data-bind="translate:'recoveryLinkSuccessfullySent'"></span>
+
+                        </div>
+
+                    </div>
+                </div>
+                <!-- /ko -->
+                <div class="bookwize-button bookwize-button-primary" data-bind="click: createRecoveryLink, translate: 'passwordRecover'"></div>
+                <div class="bookwize-membership-link" data-bind="translate:'loginTitle', click:function(){membership.resetpasswordShow(false), membership.clearMessage();}"></div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+

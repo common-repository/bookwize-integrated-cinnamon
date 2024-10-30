@@ -1,0 +1,75 @@
+<div class="bookwize-reservation">
+
+
+    <div class="bookwize-reservation-container" data-bind="if: ready(), gaTrack: { action:'send', command: 'pageview', data: '/myreservation' }">
+
+        <script id="IBEValidationMessage" type="text/html">
+            <div class="bookwize-message">
+                <div class="bookwize-alert-validation-message" data-bind="validationMessage: field"></div>
+            </div>
+        </script>
+
+
+        <div data-bind="visible: !isAuthenticated()">
+
+            <div id="Login"></div>
+            <script type="text/html" data-target="#Login" src="partials/templates/my-reservation/login-form.html">
+            </script>
+
+        </div>
+
+        <div class="grid" data-bind="if: reservation(), visible: isAuthenticated()">
+
+            <div class="grid__item three-twelfths tab--one-whole palm--one-whole">
+                <div class="bookwize-submenu">
+                    <div class="bookwize-navbar-submenu">                
+                        <div class="bookwize-nav nav-welcome" data-bind="click: function(){ setView('welcome')}">
+                            <span data-bind="translate: 'benefits'"></span><i class="material-icons">&#xE315;</i>
+                        </div>
+                        <div class="bookwize-nav nav-account" data-bind="click: function(){setView('account')}">
+                            <span data-bind="translate: 'account'"></span><i class="material-icons">&#xE315;</i>
+                        </div>
+                        <div class="bookwize-nav nav-reservation" data-bind="click: function(){setView('reservation')}">
+                            <span data-bind="translate: 'reservation'"></span><i class="material-icons">&#xE315;</i>
+                        </div>
+                        <div class="bookwize-nav" data-bind="click: logout, translate: 'logout'"></div>                
+                    </div>                    
+                </div>
+            </div>
+            <div class="grid__item desk--eight-twelfths nine-twelfths push--desk--one-twelfth palm--one-whole">
+                <div id="IBE-MyReservation-Welcome" data-template="partials/templates/my-reservation/welcome.html"></div>
+                <div id="IBE-MyReservation-Account" data-template="partials/templates/my-reservation/account.html"></div>
+                <div id="IBE-MyReservation-ViewReservation" data-template="partials/templates/my-reservation/reservation.html"></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<div class="bookwize-modal" id="TermsConditions" tabindex="-1" role="dialog" aria-labelledby="TermsConditionsHeader" aria-hidden="true">
+    <div class="bookwize-modal-inner">
+        <div class="text-right">
+            <button type="button" class="bookwize-button no-outline" data-dismiss="modal" aria-hidden="true">
+                <i class="material-icons">&#xE5CD;</i>
+            </button>
+        </div>
+        <article class="bookwize-modal-content">
+            <!--ko if:terms.id > -1 -->
+            <header class="bookwize-modal-title" data-bind="translate: 'termsConditions'"></header>
+            <div class="bookwize-modal-text">
+                <div class="bookwize-modal-body">
+                    <div data-bind="html: terms.terms"></div>
+                </div>
+
+                <button type="button" class="bookwize-button bookwize-button-cancel bookwize-button-half" data-dismiss="modal" data-bind="translate: 'disagree', click: function(){ terms.value(false); }"></button>
+
+                <button type="submit" class="bookwize-button bookwize-button-edit bookwize-button-half" data-dismiss="modal" data-bind="translate: 'agree', click: function(){ terms.value(true); }"></button>
+                   
+                 
+            </div>
+            <!--/ko-->
+        </article>
+
+    </div>
+</div>

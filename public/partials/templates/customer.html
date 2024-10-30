@@ -1,0 +1,409 @@
+<section class="bookwize-booking-proccess">
+
+    <script id="IBEValidationMessage" type="text/html">
+        <div class="bookwize-message">
+            <div class="bookwize-alert-validation-message" data-bind="validationMessage: field"></div>
+        </div>
+    </script>
+
+
+
+
+    <form role="form" data-bind="with: customer" method="post">
+        <header data-bind="translate: 'guestDetails'" class="bookwize-step3-title"></header>
+        <div data-bind="validationOptions: { messageTemplate: 'IBEValidationMessage' }" class="bookwize-step3-inner customer-details">
+            <div class="grid">
+                <div class="grid__item lap--one-fifth desk--one-fifth one-whole">
+                    <div class="bookwize-row up bookwize-form-background" data-bind="css:{'required': mandatoryTitle() === true}">
+                        <label for="CustomerTitle" data-bind="translate: 'title'" class="bookwize-label"></label>
+                        <select id="CustomerTitle" data-bind="select2: { placeholder: IBE.Utils.translate('Select title'), allowClear: true} ,options:  titleOptions, value: title, optionsValue: $data, optionsText: 'text'" name="payment_receipt" class="form-control"></select>
+
+                    </div>
+                </div>
+                <div class="grid__item lap--two-fifths desk--two-fifths one-whole">
+                    <div class="bookwize-row required bookwize-form-background" data-bind="css:{'up':firstName() !== '' && firstName() !== undefined}">
+                        <label for="CustomerFirstName" data-bind="translate: 'label_firstName'" class="bookwize-label"></label>
+                        <input id="CustomerFirstName" data-bind="value: firstName" type="text" name="customer_firstname" class="bookwize-form-input editable">
+                    </div>
+                </div>
+                <div class="grid__item lap--two-fifths desk--two-fifths one-whole">
+                    <div class="bookwize-row required bookwize-form-background" data-bind="css:{'up':lastName() !== '' && lastName() !== undefined}">
+                        <label for="CustomerLastName" data-bind="translate: 'label_lastName'" class="bookwize-label"></label>
+                        <input id="CustomerLastName" data-bind="value: lastName" type="text" name="customer_lastname" class="bookwize-form-input editable">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="grid">
+
+                <div class="grid__item lap--one-half desk--one-half one-whole">
+                    <div class="bookwize-row required up bookwize-form-background">
+                        <label for="CustomerCountry" data-bind="translate: 'label_country'" class="bookwize-label"></label>
+                        <select id="CustomerCountry" data-bind="select2: { allowClear: true}, showSearch:1 ,options:  $root.countries, value: country, optionsValue: $data, optionsText: 'name'" name="payment_receipt" class="form-control"></select>
+                    </div>
+                </div>
+                <div class="grid__item lap--one-half desk--one-half one-whole">
+                    <div class="bookwize-row bookwize-form-background" data-bind="css:{'up':city() !== '' && city() !== undefined, 'required': mandatoryCity() === true}">
+                        <label for="CustomerCity" data-bind="translate: 'label_city'" class="bookwize-label"></label>
+                        <input id="CustomerCity" data-bind="value: city" type="text" name="customer_city" class="bookwize-form-input editable">
+                    </div>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="grid__item lap--three-quarters desk--three-quarters one-whole">
+                    <div class="bookwize-row bookwize-form-background" data-bind="css:{'up':address() !== '' && address() !== undefined, 'required': mandatoryAddress() === true}">
+                        <label for="CustomerAddress" data-bind="translate: 'label_address'" class="bookwize-label"></label>
+                        <input id="CustomerAddress" data-bind="value: address" type="text" name="customer_address" class="bookwize-form-input editable">
+                    </div>
+                </div>
+                <div class="grid__item lap--one-quarter desk--one-quarter one-whole">
+                    <div class="bookwize-row bookwize-form-background" data-bind="css:{'up':zip() !== '' && zip() !== undefined, 'required': mandatoryZip() === true}">
+                        <label for="CustomerZipCode" data-bind="translate: 'label_zipCode'" class="bookwize-label"></label>
+                        <input id="CustomerZipCode" data-bind="value: zip, valueUpdate: 'keyup'" type="text" name="customer_zipcode" class="bookwize-form-input editable">
+                    </div>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="grid__item lap--one-half desk--one-half one-whole">
+                    <div class="bookwize-row bookwize-form-background required" data-bind="css:{'up':email() !== '' && email() !== undefined}">
+                        <label for="CustomerEmail" data-bind="translate: 'label_email'" class="bookwize-label"></label>
+                        <input id="CustomerEmail" data-bind="value: email" type="email" name="customer_email" class="bookwize-form-input editable">
+                    </div>
+                </div>
+                <div class="grid__item lap--one-half desk--one-half one-whole">
+                    <div class="bookwize-row bookwize-form-background" data-bind="css:{'up':phone() !== '' && phone() !== undefined, 'required': mandatoryPhone() === true}">
+                        <label for="CustomerPhone" data-bind="translate: 'telephone'" class="bookwize-label"></label>
+                        <input id="CustomerPhone" data-bind="value: phone" type="text" name="customer_phone" class="bookwize-form-input editable">
+                    </div>
+                </div>
+            </div>
+            <div class="grid">
+                <div class="grid__item one-whole" data-bind="visible: $root.bookingProcess().isOnline()">
+                    <div class="bookwize-row up bookwize-form-background ">
+                        <label data-bind="translate: 'label_paymentReceipt'" class="bookwize-label"></label>
+                        <div data-bind="foreach:paymentReceiptOptions" class="bookwize-form-radio">
+
+                            <div class="bookwize-form-radio-row">
+                                <input type="radio" name="paymentOptionsRadio" data-bind="checked: $root.paymentOptionsRadio, checkedValue: $data, attr:{id: $data.name}" />
+                                <label data-bind="text:$data.text, attr:{'for': $data.name}"></label>
+                            </div>
+
+                        </div>
+                        <!-- <select id="PaymentReceipt" data-bind="select2: {allowClear: true, minimumResultsForSearch: -1 }, options: paymentReceiptOptions, value: paymentReceipt, optionsText: 'text', optionsValue: $data" name="payment_receipt" class="bookwize-form-input"></select>-->
+                    </div>
+                </div>
+            </div>
+
+
+            <div data-bind="visible: paymentReceipt().name == 'companyInvoice', with: company()">
+
+                <div class="bookwize-invoice">
+                    <header data-bind="translate: 'invoicing'" class="bookwize-step3-title"></header>
+
+                    <div class="grid">
+                        <div class="grid__item one-whole">
+                            <div class="bookwize-row up bookwize-form-background" data-bind="css:{'up':name() !== '' && name() !== undefined}">
+                                <label for="CompanyName" data-bind="translate: 'label_companyName'" class="bookwize-label"></label>
+                                <input id="CompanyName" data-bind="value: name" type="text" name="company_name" class="bookwize-form-input editable">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="grid__item lap--one-half desk--one-half one-whole">
+                            <div class="bookwize-row bookwize-form-background" data-bind="css:{'up':industry() !== '' && industry() !== undefined}">
+                                <label for="CompanyIndustry" data-bind="translate: 'label_companyIndustry'" class="bookwize-label"></label>
+                                <input id="CompanyIndustry" data-bind="value: industry" type="text" name="company_industry" class="bookwize-form-input editable">
+                            </div>
+                        </div>
+                        <div class="grid__item lap--one-half desk--one-half one-whole">
+                            <div class="bookwize-row bookwize-form-background" data-bind="css:{'up':vatNumber() !== '' && vatNumber() !== undefined}">
+                                <label for="CompanyVatNumber" data-bind="translate: 'label_companyVatNumber'" class="bookwize-label"></label>
+                                <input id="CompanyVatNumber" data-bind="value: vatNumber" type="text" name="company_vat_number" class="bookwize-form-input editable">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="grid__item lap--one-third desk--one-third one-whole">
+                            <div class="bookwize-row bookwize-form-background" data-bind="css:{'up':address() !== '' && address() !== undefined}">
+                                <label for="CompanyAddress" data-bind="translate: 'label_companyAddress'" class="bookwize-label"></label>
+                                <input id="CompanyAddress" data-bind="value: address" type="text" name="company_address" class="bookwize-form-input editable">
+                            </div>
+                        </div>
+                        <div class="grid__item lap--one-third desk--one-third one-whole" data-bind="visible: $root.bookingProcess().isOnline()">
+                            <div class="bookwize-row bookwize-form-background" data-bind="css:{'up':zipCode() !== '' && zipCode() !== undefined}">
+                                <label for="CompanyZipCode" data-bind="translate: 'label_companyZipCode'" class="bookwize-label"></label>
+                                <input id="CompanyZipCode" data-bind="value: zipCode" type="text" name="company_zip_code" class="bookwize-form-input editable">
+                            </div>
+                        </div>
+                        <div class="grid__item lap--one-third desk--one-third one-whole" data-bind="visible: $root.bookingProcess().isOnline()">
+                            <div class="bookwize-row bookwize-form-background" data-bind="css:{'up':phone() !== '' && phone() !== undefined}">
+                                <label for="CompanyPhone" data-bind="translate: 'label_companyPhone'" class="bookwize-label"></label>
+                                <input id="CompanyPhone" data-bind="value: phone" type="text" name="company_phone" class="bookwize-form-input editable">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ko if: IBE.Config.ibeFlightInfo -->
+            <div class="grid">
+                <div class="grid__item one-whole">
+                    <div class="bookwize-row up bookwize-form-background">
+                        <div class="bookwize-form-radio bookwize-flight">
+
+                            <div class="input checkbox" style="padding-top: 0;">
+                                <input id="FlightInformation" style="margin-left: 5px;" type="checkbox"
+                                       data-bind="checked: $root.flightInformation" name="flight_information">
+                                <label for="FlightInformation" style="padding-left: 0;"
+                                       data-bind="translate: 'flightText'"></label>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div data-bind="visible: $root.flightInformation()">
+                <div class="bookwize-flight-info">
+                    <header data-bind="translate: 'flightInfo'" class="bookwize-step3-title"></header>
+
+                    <div class="bookwize-step3-inner">
+                        <div class="bookwize-row bookwize-form-background" data-bind="css:{'up':$root.flightInformationDetails.flightNumber() !== ''}">
+                            <label for="flightNumber" data-bind="translate: 'label_flightNumber'" class="bookwize-label"></label>
+                            <input id="flightNumber" data-bind="value: $root.flightInformationDetails.flightNumber" type="text" name="flightNumber" class="bookwize-form-input editable">
+                        </div>
+                        <div class="bookwize-row bookwize-form-background" data-bind="css:{'up':$root.flightInformationDetails.airportOfArrival() !== ''}">
+                            <label for="airportOfArrival " data-bind="translate: 'airportOfArrival'" class="bookwize-label"></label>
+                            <input id="airportOfArrival " data-bind="value: $root.flightInformationDetails.airportOfArrival " type="text" name="airportOfArrival" class="bookwize-form-input editable">
+                        </div>
+                        <div class="bookwize-row bookwize-form-background" data-bind="css:{'up':$root.flightInformationDetails.estimatedTime() !== ''}">
+                            <label for="estimatedTime" data-bind="translate: 'estimatedTime'" class="bookwize-label"></label>
+                            <input id="estimatedTime" data-bind="value: $root.flightInformationDetails.estimatedTime" type="text" name="estimatedTime" class="bookwize-form-input editable">
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- /ko -->            
+            
+            <header data-bind="visible: $root.bookingProcess().isOnline(), translate: 'billingInformation'" class="bookwize-step3-title margin-bottom margin-top"></header>
+            <!--ko if: $root.requiredCreditCard()-->
+            <div data-bind="visible: $root.bookingProcess().isOnline(), with: creditCard" class="bookwize-booking-payment bookwize-step3-inner">
+                <div data-bind="validationOptions: { messageTemplate: 'IBEValidationMessage' }" class="bookwize-step3-inner">
+                    <div class="bookwize-booking-payment-images">
+                        <div class="grid">
+                            <div class="grid__item lap--one-half desk--one-half one-whole">
+                                <span data-bind="translate:'acceptedCards'"></span>
+                                <div data-bind="foreach: acceptedCards">
+                                    <img data-bind="src: 'https://bookwizecdn.azureedge.net/images/'+ $data +'.png', attr: { alt : $data }, css: {'active' : $data.toLowerCase() == $parent.cardType() }">
+                                </div>
+                            </div>
+                            <div class="grid__item lap--one-half desk--one-half one-whole">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bookwize-info" data-bind="html: $root.creditCardChargeText()"></div>
+                    <div class="bookwize-booking-payment-footer">
+
+                        <div class="grid">
+                            <div class="grid__item tab--three-sixths lap--three-sixths desk--three-sixths one-whole">
+                                <div class="bookwize-row required bookwize-form-background" data-bind="css:{'up':cardHolder() !== '' && cardHolder() !== undefined}">
+                                    <label for="CustomerCardHolder" data-bind="translate: 'label_cardHolderName'" class="bookwize-label"></label>
+                                    <input id="CustomerCardHolder" data-bind="value: cardHolder" type="text" name="ccname" class="bookwize-form-input editable">
+
+                                </div>
+                            </div>
+                            <div class="grid__item tab--two-sixths lap--two-sixths desk--two-sixths one-whole">
+                                <div class="bookwize-row required card-expire bookwize-form-input bookwize-form-background up">
+                                    <label for="CardExpirationYear" data-bind="translate: 'label_expires'" class="bookwize-label"></label>
+                                    <div class="selection-row">
+                                        <select id="CardExpirationYear" data-bind="select2: {allowClear: true} ,options:  yearOptions(), value: cardExpirationYear, optionsValue: $data, optionsText: $data" autocomplete="cc-exp-year" name="ccyear"></select>
+                                    </div>
+                                    <div class="selection-row">
+                                        <select id="CardExpirationMonth" data-bind="select2: {allowClear: true} ,options:  monthOptions(), value: cardExpirationMonth, optionsValue: $data, optionsText: $data" autocomplete="cc-exp-month" name="ccmonth"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="grid">
+                            <div class="grid__item tab--three-sixths lap--three-sixths desk--three-sixths one-whole">
+                                <div class="bookwize-row required bookwize-form-background" data-bind="css:{'up':cardNumber() !== '' && cardNumber() !== undefined}">
+                                    <label for="CustomerNumber" data-bind="translate: 'label_cardNumber'" class="bookwize-label"></label>
+                                    <input id="CustomerNumber" data-bind="value: cardNumber, valueUpdate: 'keyup'" type="text" name="card_number" autocomplete="cc-number" class="bookwize-form-input editable">
+                                    <div class="bookwize-accepted-cards">
+                                        <div data-bind="foreach: acceptedCards">
+                                            <img data-bind="src: 'https://bookwizecdn.azureedge.net/images/'+ $data +'.png', attr: { alt : $data }, css: {'active' : $data.toLowerCase() == $parent.cardType() }">
+                                        </div>
+                                        <i class="material-icons" data-bind="css: {'active' : cardType() === undefined }">&#xE8A1;</i>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="grid__item tab--two-sixths lap--two-sixths desk--two-sixths one-whole">
+                                <div class="bookwize-row required  bookwize-form-background" data-bind="css:{'up':cardVerification() !== '' && cardVerification() !== undefined}">
+                                    <label for="CardVerification" data-bind="translate: 'label_cvc'" class="bookwize-label"></label>
+                                    <input id="CardVerification" data-bind="value: cardVerification" type="password" name="card_verification" maxlength="4" class="bookwize-form-input editable">
+                                </div>
+                            </div>
+                        </div>
+                        <div data-bind="validationOptions: { messageTemplate: 'IBEValidationMessage' }">
+
+                            <div data-bind="visible: $root.hasMessage()">
+                                <div class="bookwize-message bookwize-message-fullpage">
+
+                                    <span data-bind="css: 'alert-' + ($root.message().severity() == 'error' ? 'danger' : $root.message().severity())">
+                                        <span data-bind="text: $root.message().text()"></span>
+                                    </span>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /ko -->
+
+            <!--ko ifnot: $root.requiredCreditCard()-->
+                <!--ko if: $root.bookingProcess().paymentMethodType() ==='NoPaymentInfo'-->
+                <div data-bind="translate: 'noPaymentInfo'"></div>
+                <!-- /ko -->
+                <!--ko if: $root.bookingProcess().paymentMethodType() ==='ExternalPaymentGateway'-->
+                <div class="bookwize-payment-container">
+                    <!-- <div class="bookwize-booking-payment-images">
+                        <div class="grid">
+                            <div class="grid__item lap--one-half desk--one-half one-whole">
+                                <div data-bind="with: creditCard">
+                                    <span data-bind="translate:'acceptedCards'"></span>
+                                    <div data-bind="foreach: acceptedCards">
+                                        <img data-bind="src: 'https://bookwizecdn.azureedge.net/images/'+ $data +'.png', attr: { alt : $data }, css: {'active' : $data.toLowerCase() == $parent.cardType() }">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid__item lap--one-half desk--one-half one-whole">
+
+                            </div>
+                        </div>
+                    </div> -->
+                    <!-- ko if: $root.typePaymentGateway() == 'Stripe' -->
+                    <div class="grid">
+                        <div class="grid__item one-whole">                    
+                            <div class="bookwize-row stripe-wrapper"> 
+                                <div id="stripe-card"></div>
+                                <div id="card-errors" role="alert"></div>
+                            </div>
+                        </div>                
+                    </div>
+                    <!-- /ko -->
+                    <!--ko if: $root.typePaymentGateway() == 'AlphaBankRedirect' && $root.bookingProcess().advancePayment() > 0-->
+                    <div class="alphabank">
+                        <div class="bookwize-payment-methods">
+                            <div class="hp-title" data-bind="translate:'choosePaymentMethod'"></div>
+                            <div class="bookwize-payment-methods_inner">
+                                <input type="radio" name="paymentMethod" data-bind="checked: $root.externalPaymentGateway().paymentMethod, checkedValue: ''" class="bookwize-payment-methods__input" id="creditcard" />
+                                <label class="alpha-images"><img data-bind="attr: { 'src' : IBEConfig.pluginUrl +'img/credit-cards.png'}" class="hp-payment-methods__img"></label>
+
+                            </div>
+                            <!--
+                            <div class="bookwize-payment-methods_inner">
+                                <input type="radio" name="paymentMethod" data-bind="checked: $root.externalPaymentGateway().paymentMethod, checkedValue: 'auto:MasterPass', translate:''" class="bookwize-payment-methods__input" id="masterpass" />
+                                <img data-bind="src: 'https://bookwizecdn.azureedge.net/images/masterpass.gif'" class="bookwize-payment-methods__img">
+                            </div>
+                            -->
+                        </div>
+                    </div>
+                    <!-- /ko -->
+
+                    <!--ko if: $root.typePaymentGateway() == 'JccRedirect' -->
+                        <div class="text-center">
+
+                            <img data-bind="attr: { 'src' : IBEConfig.pluginUrl +'img/jcc.png'}"/>
+                        </div>
+                        <!-- <button class="bookwize-button bookwize-button-primary margin-top" data-bind="click: $root.beforeSubmit, translate:'proceedPay'"></button> -->
+                    <!--/ko-->
+                
+                </div>
+                <!-- /ko -->
+            <!-- /ko -->
+
+            <div data-bind="validationOptions: { messageTemplate: 'IBEValidationMessage' }">
+                <!--ko if:$root.consents().length > 0 || $root.terms.id > -1-->
+                <div class="grid margin-bottom">
+                    <div class="grid__item one-whole">
+                        <div class="bookwize-row up bookwize-form-background margin-bottom">
+                            <div class="bookwize-checkbox">
+                                <!--ko if:$root.consents().length > 0-->
+                                <!--ko foreach:$root.consents-->
+                                <div class="input checkbox">
+                                    <input type="checkbox" class="required bookwize-checkbox--hidden" data-bind="checked: value, attr: { id: 'consents' + $index()}">
+                                    <label class="terms-conditions-label" data-bind="attr: { for: 'consents' + $index()}">
+                                        <span data-bind="html: title"></span>
+                                    </label>
+
+                                </div>
+                                <!--/ko-->
+                                <!--/ko-->
+                                <!--ko if:$root.terms.id > -1 -->
+                                <div class="input checkbox terms-condition">
+                                    <input type="checkbox" class="required bookwize-checkbox--hidden" data-bind="checked : $root.terms.value" id="termsConditions">
+                                    <label class="terms-conditions-label" for="termsConditions">
+                                        <span data-toggle="modal" data-target="#TermsConditions" data-bind="translate: 'acceptTermsConditions'"></span>
+                                        <span data-bind="translate: 'and'"></span>
+                                        <span data-toggle="modal" data-target="#Privacy" data-bind="translate: 'privacyPolicy'"></span>
+                                    </label>
+
+                                </div>
+                                <!--/ko-->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!--/ko-->
+            </div>
+
+            <!--ko if: $root.bookingProcess().isOnline()-->
+            <!--ko if: typeof $root.externalPaymentGateway() === 'undefined'-->
+            <div class="bookwize-step3-inner">
+
+                <!-- <button class="bookwize-button bookwize-button-primary" data-bind="css:{disabled: $root.disableButton}, diasble: $root.disableButton, click: $root.makeReservation, translate:'completeReservation'"></button> -->
+                <button class="bookwize-button bookwize-button-primary" data-bind="css:{disabled: $root.disableButton}, disable: $root.disableButton, click: $root.makeReservation, translate:'completeReservation'"></button>
+
+            </div>
+            <!--/ko-->
+            <!--ko if: typeof $root.externalPaymentGateway() !== 'undefined' && $root.typePaymentGateway() !== 'JccRedirect'-->
+            <div class="bookwize-step3-inner">
+
+                <!-- <button class="bookwize-button bookwize-button-primary" data-bind="css:{disabled: $root.disableButton}, diasble: $root.disableButton, click: $root.externalPaymentGateway().beforeSubmit, translate: 'completeReservation'"></button> -->
+                <button class="bookwize-button bookwize-button-primary" data-bind="css:{disabled: $root.disableButton}, disable: $root.disableButton, click: $root.externalPaymentGateway().beforeSubmit, translate: 'completeReservation'"></button>
+
+            </div>
+            <!--/ko-->
+            <!--/ko-->
+            <!--ko ifnot: $root.bookingProcess().isOnline()-->
+            <div class="bookwize-step3-inner">
+
+                <!-- <button class="bookwize-button bookwize-button-primary" data-bind="css:{disabled: $root.disableButton}, diasble:disableButton, click: $root.makeReservation, translate: 'completeRequest' "></button> -->
+                <button class="bookwize-button bookwize-button-primary" data-bind="css:{disabled: $root.disableButton}, disable: $root.disableButton, click: $root.makeReservation, translate: 'completeRequest' "></button>
+
+            </div>
+            <!--/ko-->
+            <!--ko if: typeof $root.externalPaymentGateway() !== 'undefined' && $root.typePaymentGateway() == 'JccRedirect' -->
+                <div class="bookwize-step3-inner">
+                    <button class="bookwize-button bookwize-button-primary margin-top" data-bind="click: $root.makeReservation, translate:'proceedPay'"></button>
+                </div>
+            <!--/ko-->
+
+            
+
+            
+
+
+        </div>
+    </form>
+
+</section>

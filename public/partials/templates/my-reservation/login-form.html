@@ -1,0 +1,29 @@
+<section class="bookwize-reservation-login">
+  
+     
+				<div class="bookwize-message bookwize-message-fullpage">
+					<p data-bind="css: 'alert-' + (message().severity() == 'error' ? 'danger' : message().severity())">
+						<span data-bind="text: message().text()"></span>
+					</p>
+				</div>
+		
+    <div class="bookwize-reservation-login-text">
+        <div data-bind="translate: 'myReservation.LoginPrompt'"></div>
+        <div data-bind="translate: 'myReservation.CredentialsInfo'"></div>
+    </div>
+			<div class="bookwize-form-row required bookwize-form-background" data-bind="css:{'up':username() !== '' && username() !== undefined}">
+              
+				<label for="username" data-bind="translate: 'label_customeremail'" class="bookwize-label"></label>
+				<input id="username" data-bind="value: username, valueUpdate: 'keyup'" type="text" name="username" class="bookwize-form-input editable">
+			</div>
+			<div class="bookwize-form-row required bookwize-form-background" data-bind="css:{'up':password() !== '' && password() !== undefined}">
+				<label for="password" data-bind="translate: 'label_customerpassword'" class="bookwize-label"></label>
+				<input id="password" data-bind="value: password, valueUpdate: 'keyup'" type="text" name="password" class="bookwize-form-input editable">
+			</div>
+
+			<div class="bookwize-form-row">
+				<button type="button" class="bookwize-button bookwize-button-primary bookwize-login-button" data-bind="click: login, translate: 'login'"></button>
+			</div>
+		
+	
+</section>

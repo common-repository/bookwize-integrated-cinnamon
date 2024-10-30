@@ -1,0 +1,76 @@
+<div class="bookwize-step3" data-bind="visible: ready()" style="display: none">
+    <div class="bookwize-step3-container">
+        <div class="bookwize-sidebar bookwize-sidebar-vertical">
+
+            <div id="Sidebar" data-bind="with: bookingProcess()"></div>
+            <script type="text/html" data-target="#Sidebar" src="partials/templates/sidebar.html">
+            </script>
+
+        </div>
+        <div class="bookwize-step3-content">
+            <div id="Supplements"></div>
+            <script type="text/html" data-target="#Supplements" src="partials/templates/supplements.html">
+            </script>
+
+            <div id="Customer"></div>
+            <script type="text/html" data-target="#Customer" src="partials/templates/customer.html">
+            </script>
+        </div>
+
+
+
+    </div>
+
+    <div class="bookwize-modal" id="TermsConditions" tabindex="-1" role="dialog" aria-labelledby="TermsConditionsHeader" aria-hidden="true">
+        <div class="bookwize-modal-inner">
+            <div class="text-right">
+                <button type="button" class="bookwize-button no-outline" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">&#xE5CD;</i>
+                </button>
+            </div>
+            <article class="bookwize-modal-content">
+                <!--ko if:terms.id > -1 -->
+                <header class="bookwize-modal-title" data-bind="translate: 'termsConditions'"></header>
+                <div class="bookwize-modal-text">
+                    <div class="bookwize-modal-body">
+                        <div data-bind="html: terms.terms"></div>
+                    </div>
+
+
+                </div>
+
+                <button type="button" class="bookwize-button bookwize-button-cancel bookwize-button-half" data-dismiss="modal" data-bind="translate: 'disagree', click: function(){ terms.value(false); }"></button>
+
+                <button type="submit" class="bookwize-button bookwize-button-edit bookwize-button-half" data-dismiss="modal" data-bind="translate: 'agree', click: function(){ terms.value(true); }"></button>
+
+                <!--/ko-->
+            </article>
+
+        </div>
+    </div>
+
+    
+    <!--ko if: $data.terms.privacy -->
+    <div class="bookwize-modal" id="Privacy" tabindex="-1" role="dialog" aria-labelledby="PrivacyHeader" aria-hidden="true">
+        <div class="bookwize-modal-inner">
+            <div class="text-right">
+                <button type="button" class="bookwize-button no-outline" data-dismiss="modal" aria-hidden="true">
+                    <i class="material-icons">&#xE5CD;</i>
+                </button>
+            </div>
+            <article class="bookwize-modal-content">
+             
+                <header class="bookwize-modal-title" data-bind="translate: 'privacyPolicy'"></header>
+                <div class="bookwize-modal-text">
+                    <div class="bookwize-modal-body">
+                        <div data-bind="html: $data.terms.privacy"></div>
+                    </div>
+                </div>
+            
+            </article>
+    
+        </div>
+    </div>
+    <!--/ko-->
+
+</div>

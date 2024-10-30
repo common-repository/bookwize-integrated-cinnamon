@@ -1,0 +1,53 @@
+<header class="bookwize-header bookwize-header-integrated" role="navigation" data-bind="if: hotel() && ready()">
+
+    <div class="grid grid--middle grid--full">
+        <div class="grid__item one-whole desk--one-half">
+            <a href="?page=1" data-bind="translate: 'book', attr: {title : IBEStepsMain.metaTitles[0]}, css: { active: view() == 'book'}" class="header-actions__item"></a>
+
+
+        </div>
+        <div class="grid__item one-whole desk--one-half check-rates text-right">
+            <!-- ko if: languages().length > 1 -->
+            <div class="languages bookwize-header__item">
+                <div class="bookwize-header__language bookwize-header-dropdown">
+                    <div class="bookwize-toggle" data-toggle="dropdown">
+                        <span data-bind="translate: lang()"></span>
+                        <i class="material-icons arrow-down">&#xE313;</i>
+                        <i class="material-icons arrow-up">&#xE316;</i>
+
+                    </div>
+                    <ul data-bind="foreach: languages" class="bookwize-header__language-dropdown">
+                        <li data-bind="css: {'active' : culture == $parent.lang() }, click: function(){$root.lang($data.culture)}">
+                            <span data-bind="text: locale"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /ko -->
+                <div data-bind="if: currencies()" class="bookwize-header__item">
+                    <div class="bookwize-header-dropdown bookwize-header__currency">
+                        <div class="bookwize-toggle" data-toggle="dropdown">
+                            <span data-bind="text: currency()"></span>
+                            <i class="material-icons arrow-down">&#xE313;</i>
+                            <i class="material-icons arrow-up">&#xE316;</i>
+                        </div>
+                        <div class="bookwize-header__currency-dropdown">
+                            <ul data-bind="foreach: currencies().rates">
+
+                                <li data-bind="css: {'active' : code == $parent.currency()}, click: function(){$root.currency($data.code)}">
+                                    <div class="bookwize-header__currency-dropdown-inner">
+
+                                        <div class="code" data-bind="text: code"></div>
+                                        <div class="name" data-bind="text: name"></div>
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+        </div>
+    </div>
+</header>

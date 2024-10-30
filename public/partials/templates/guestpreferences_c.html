@@ -1,0 +1,278 @@
+<!--ko: if: hotel -->
+<!--ko: if: ready()-->
+<div class="">
+
+    <div data-bind="visible: hasMessage()">
+        <div data-bind="if: parseInt(message().id()) != 3001" class="bookwize-message">
+            <p data-bind="css: 'alert-' + (message().severity() == 'error' ? 'danger' : message().severity())">
+                <span data-bind="translate: message().text()"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            </p>
+        </div>
+    </div>
+
+
+    <div data-bind="if: !bookingProcess().isValidStay">
+        <div class="bookwize-message">
+            <div class="alert-danger">
+                <span data-bind="translate: 'invalidCheckOutDate'"></span>
+            </div>
+        </div>
+    </div>
+
+    <div data-bind="visible: !isValidStay()">
+        <div class="bookwize-message">
+            <div class="alert-warning">
+                <span data-bind="translate: 'invalidDateRange'"></span>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div>
+    <div class="bookwize-sidebar-row bookwize-toggle">
+        <div class="bookwize-sidebar-title" data-bind="translate:'preferences'"></div>
+
+        <div class="bookwize-form-input bookwize-form-background up">
+
+            <div class="bookwize-label">
+                <span data-bind="text: nights"></span>
+
+                <span data-bind="visible: nights() == 1">
+                    <span data-bind="translate: 'night'"></span>
+                </span>
+                <span data-bind="visible: nights() > 1">
+                    <span data-bind="translate: 'nights'"></span>
+                </span>
+            </div>
+            <div class="bookwize-form-text">
+                <span data-bind="date:checkIn(), dateFormat: 'MMM. D, YYYY'"></span><i class="material-icons arrow-right">&#xE5CC;</i>
+                <span data-bind="date:checkOut(), dateFormat: 'MMM. D, YYYY'"></span>
+
+            </div>
+
+            <i class="material-icons icon-date">&#xE616;</i>
+
+        </div>
+
+
+    </div>
+    <div class="bookwize-collapsed" data-bind="datepickerWithRangeOpend: checkIn, availability: step1.hotel().availability, dateRange:[checkIn,checkOut], minDate: minCheckInDate(), datepickerOptions:{monthsToShow: 1, rangeSelect: true, pickerClass: 'small'},  lang: lang, theme:'cinamon'" readonly="readonly" id="datepickerOpened" required="required" data-arrow-offset="100">
+
+    </div>
+</div>
+<div class="bookwize-sidebar-row">
+
+    <div data-bind="foreach: requestedRooms">
+   
+        <div class="bookwize-sidebar-room-row">
+            <div class="bookwize-sidebar-title">
+                <span data-bind="translate:'room'"></span>
+                <span data-bind="text: ($index()+1)"></span>
+            </div>
+        <div data-bind="visible: ($root.requestedRooms().length > 1 && !step2.selectedRooms()[$index()])"
+             class="bookwize-remove">
+
+            <button type="button" class="bookwize-button no-outline "
+                    data-bind="click: $root.removeRequestedRoom.bind($data), attr: {title : IBE.Utils.translate('removeRoom') }">
+
+                <span data-bind="translate: 'remove'"></span>
+                <i class="material-icons">&#xE5C9;</i>
+            </button>
+
+        </div>
+        <div class="bookwize-sidebar-inner">
+            <div data-bind="if:step2.selectedRooms()[$index()], click: step2.setRoomIndex">
+                <div class="bookwize-selected-rooms-inline">
+                    <div data-bind="foreach:step2.selectedRooms()[$index()].guestTypes()" class="bookwize-selected-room-inline">
+
+                        <div class="bookwize-selected-room-text">
+                            <!-- ko if: pax() > 0 -->
+                            <span data-bind="if: $index() > 0 ">,</span>
+                            <span data-bind="text: pax"></span>
+                            <!-- ko if: pax() <= 1 --><span data-bind="translate:  ageCategory()"></span>
+                            <!-- /ko -->
+                            <!-- ko if: pax() > 1 --><span data-bind="translate: 'guestType.' + ageCategory()"></span>
+                            <!-- /ko -->
+                            <!-- /ko -->
+                        </div>
+                    </div>
+                    <div class="bookwize-selected-room-inline">
+
+                        <div class="bookwize-selected-room-text">
+                            <div data-bind="text:step2.selectedRooms()[$index()].roomInfo().name"></div>
+                        </div>
+                    </div>
+                    <div class="bookwize-selected-room-inline">
+
+                        <div class="bookwize-selected-room-text">
+                            <div data-bind="text:step2.selectedRooms()[$index()].board().name"></div>
+                        </div>
+                    </div>
+                    <div class="bookwize-selected-room-inline last">
+
+                        <div class="bookwize-selected-room-text">
+                            <div data-bind="text:step2.selectedRooms()[$index()].ratePlan().defaultName"></div>
+                            <div data-bind="money:step2.selectedRooms()[$index()].cost()"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid" data-bind="if:step2.selectedRooms()[$index()] === undefined">
+                <div class="grid__item">
+                    <div>
+
+                        <div class="bookwize-guests-group up">
+                            <div class="bookwize-form-input bookwize-form-background bookwize-toggle"  data-bind="attr: { 'data-target' : '.bookwize-guest-wrapper'}">
+                                <label data-bind="translate:'guests'" class="bookwize-label"></label>
+                                <div class="bookwize-form-text">
+                                    <!-- ko foreach: guests -->
+                                    <!--ko if: ageCategory() === 'Children' -->
+                                    <!-- ko if: pax() > 0 -->
+                                    <span data-bind="if: $index() > 0 ">,</span>
+                                    <span data-bind="text: pax"></span>
+                                    <!-- ko if: pax() <= 1 --><span data-bind="translate: 'child'"></span>
+                                    <!-- /ko -->
+                                    <!-- ko if: pax() > 1 --><span data-bind="translate: 'guestType.' + ageCategory()"></span><!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!--ko if: ageCategory() !== 'Children' -->
+                                    <!-- ko if: pax() > 0 -->
+                                    <span data-bind="if: $index() > 0 ">,</span>
+                                    <span data-bind="text: pax"></span>
+                                    <!-- ko if: pax() <= 1 --><span data-bind="translate: ageCategory()"></span>
+                                    <!-- /ko -->
+                                    <!-- ko if: pax() > 1 --><span data-bind="translate: 'guestType.' + ageCategory()"></span><!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                    <!-- /ko -->
+                                </div>
+                                <div class="text-right">
+                                    <i class="material-icons up-arrow">&#xE313;</i>
+                                    <i class="material-icons down-arrow">&#xE316;</i>
+                                </div>
+                            </div>
+                            <div class="bookwize-guest-wrapper">
+
+
+                                <!-- ko foreach: guests -->
+                                <div class="bookwize-guest-inner ">
+
+
+
+                                    <span class="bookwize-guest-length" data-bind="text: pax(),css: { disable: pax() === 0 }"></span>
+
+                                    <div class="bookwize-guest-categories">
+                                        <!--ko if: ageCategory() === 'Children' -->
+                                        <!-- ko if: pax() <= 1 --><span data-bind="translate: 'child'"></span>
+                                        <!-- /ko -->
+                                        <!-- ko if: pax() > 1 --><span data-bind="translate: 'guestType.' + ageCategory()"></span>
+                                        <!-- /ko -->
+                                        <!-- /ko -->
+                                        <!--ko if: ageCategory() !== 'Children' -->
+                                        <!-- ko if: pax() <= 1 --><span data-bind="translate:  ageCategory()"></span>
+                                        <!-- /ko -->
+                                        <!-- ko if: pax() > 1 --><span data-bind="translate: 'guestType.' + ageCategory()"></span>
+                                        <!-- /ko -->
+                                        <!-- /ko -->
+
+                                        <small data-bind="if: ageCategory() != IBE.Config.guestType.Adult">
+
+                                            <span data-bind="text: label"></span>
+                                            <span data-bind="translate: 'years'"></span>
+                                        </small>
+                                    </div>
+                                    <div class="bookwize-guest-buttons">
+                                        <div class="bookwize-guest-button"
+                                             data-bind="click: $root.removeGuest,  css: { disable: pax() === 0 }">
+                                            <i class="material-icons">&#xE15C;</i>
+                                        </div>
+                                        <div class="bookwize-guest-button"
+                                             data-bind="click: function(){ $root.addGuest($data, $parent)},  css: { disable: !$root.addVisible($parent) && ageCategory() != IBE.Config.guestType.Infant }">
+                                            <i class="material-icons">&#xE147;</i>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <!-- /ko -->
+
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <!-- kocomment if: $parent.showBoard() != false -->
+                <!-- <div class="grid__item up">            
+                    <div data-bind="visible: $parent.boardTypes().length > 1">
+                        <div class="board-type">
+                            <label data-bind="translate:'selectMealPlan'" class="bookwize-label"></label>
+                            <select class="bookwize-form-input" data-bind="select2: {allowClear: true, minimumResultsForSearch: -1 }, options: $parent.boardTypes, value: step2.request().preferredBoard, optionsValue: 'boardType', optionsText: 'name'"></select>
+
+                        </div>
+                    </div>
+                    <div data-bind="visible: $parent.boardTypes().length === 1">
+                        <div class="board-type">
+                            <label data-bind="translate:'selectMealPlan'" class="bookwize-label"></label>
+                            <div class="board-type bookwize-form-input bookwize-form-background">
+                                <div data-bind="text:$parent.boardTypes()[0].name"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <!-- /kocomment -->
+            </div>
+        </div>
+         </div>
+  
+        </div>
+
+
+    <!--ko if: $root.canAddRequestedRoom()-->
+    <div class="text-center bookwize-add-room">
+        <button type="button" class="bookwize-button no-outline-bold" data-bind="click: $root.addRequestedRoom">
+            <i class="material-icons">&#xE147;</i>
+            <span data-bind="translate: 'addRoom'"></span>
+        </button>
+    </div>
+    <!--/ko-->
+    <!--ko if:board-->
+    <div class="bookwize-info small-row margin-top" data-bind="visible: board().description != '' ">
+        <div data-bind="html: board().description"></div>
+    </div>
+    <!--/ko-->
+    <div data-bind="visible: couponExists">
+        <div class="bookwize-row" data-bind="css:{'up':couponCode() !== ''}">
+
+            <label data-bind="translate: 'pastePromoCode'" class="bookwize-label"></label>
+            <input class="bookwize-form-input  bookwize-form-background editable" type="text"
+                   data-bind="value: couponCode, valueUpdate: 'keyup'">
+
+
+            <div data-bind="visible: hasMessage()">
+                <div data-bind="if: parseInt(message().id()) == 3001" class="message">
+                    <p data-bind="css: 'alert alert-' + (message().severity() == 'error' ? 'danger' : message().severity())">
+                        <span data-bind="translate: message().text()"></span>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="bookwize-row" data-bind="visible:step2.preferencesChanged()">
+
+        <div class="step1-submit-holder text-center">
+            <div class="bookwize-update-text" data-bind="translate:'updateText'"></div>
+            <button type="submit" class="bookwize-button bookwize-button-primary"
+                    data-bind="click: validate, enable: allowSubmit, translate: 'updatePreferences'"></button>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- /ko-->
+<!-- /ko-->

@@ -1,0 +1,186 @@
+<aside class="bookwize-sidebar-line">
+
+    <header class="bookwize-sidebar-title">
+        <span data-bind="translate: 'yourReservation'"></span>
+    </header>
+
+    <section class="bookwize-sidebar-content">
+
+        <header class="bookwize-sidebar-content-header">
+            <div class="bookwize-sidebar-content-header-inner">
+                <span data-bind="date:checkIn, dateFormat: 'MMMM D, YYYY'"></span>
+                <i class="material-icons">&#xE5CC;</i>
+            </div>
+            <div class="bookwize-sidebar-content-header-inner">
+                <span data-bind="date:checkOut,  dateFormat: 'MMMM D, YYYY'"></span>
+             
+            </div>
+
+            <div class="bookwize-sidebar-content-header-inner">
+
+              (<span data-bind="text: nights()"></span>
+                <!-- ko if: nights() == 1 -->
+                <span data-bind="translate: 'night'"></span>
+                <!-- /ko -->
+                <!-- ko if: nights() > 1 -->
+                <span data-bind="translate: 'nights'"></span>
+                <!-- /ko -->
+              )
+            </div>
+ 
+        </header>
+
+
+        <!-- ko foreach:rooms -->
+        <div class="bookwize-sidebar-title" data-bind="translate: 'room'"></div><div class="bookwize-sidebar-val" data-bind="text: ($index()+1)"></div>
+        <article class="bookwize-sidebar-content-body">
+
+           
+            <div class="bookwize-sidebar-text" data-bind="text: roomInfo().name, attr: {lang: $root.lang} "></div>
+
+            <div class="bookwize-sidebar-text" data-bind="foreach: guestTypes()">
+                <span data-bind="text: pax()"></span>
+
+
+                <span data-bind="if: pax() == 1">
+                    <!-- ko if: $parent.guestTypes().length == 1 -->
+                    <span data-bind="translate: 'guest'"></span>
+                    <!-- /ko -->
+
+                    <!-- ko if: $parent.guestTypes().length > 1 -->
+                    <!--ko if: ageCategory() === 'Children' -->
+                    <!-- ko if: pax() <= 1 --><span data-bind="translate: 'child'"></span>
+                    <!-- /ko -->
+                    <!-- /ko -->
+                    <!--ko if: ageCategory() !== 'Children' -->
+                    <span data-bind="translate: ageCategory()"></span>
+                    <!-- /ko -->
+
+                    <!-- /ko -->
+                </span>
+                <span data-bind="if: pax() > 1">
+                    <!-- ko if: $parent.guestTypes().length == 1 -->
+                    <span data-bind="translate: 'guests'"></span>
+                    <!-- /ko -->
+                    <!-- ko if: $parent.guestTypes().length > 1 -->
+                    <span data-bind="translate: ageCategory()"></span>
+                    <!-- /ko -->
+                </span><span data-bind="if: ($index() + 1) != $parent.guestTypes().length">, </span>
+
+            </div>
+            <div class="bookwize-sidebar-text">
+                <span data-bind="text: ratePlan().name, attr: {lang: $root.lang}"></span>
+                <div data-bind="text: board().name, attr: {lang: $root.lang}">
+                </div>
+            </div>
+            <div class="bookwize-sidebar-text last">
+
+                <div data-bind="translate: 'total'"> </div>
+                <div class="text-right">
+                    <span class="bookwize-price bookwize-price-line-through" data-bind="visible: cost() !== costWithoutDiscount() , money: costWithoutDiscount()"></span>
+                    <span data-bind="money: cost()"> </span>
+                </div>
+            </div>
+
+        </article>
+
+        <!-- /ko -->
+
+        <div data-bind="if: supplements().length > 0">
+            <section class="bookwize-sidebar-supplements" data-bind="foreach: supplements">
+                <article class="bookwize-sidebar-content-body">
+                    <div class="grid">
+                        <div class="grid__item two-thirds">
+                            <div class="bookwize-sidebar-text">
+                                <span data-bind="text: quantity"></span> &times;
+                                <span data-bind="text: name, attr: {lang: $root.lang}"></span>
+                            </div>
+                        </div>
+
+                        <div class="grid__item one-third">
+                            <span class="bookwize-sidebar-price" data-bind="money: totalPrice"></span>
+                        </div>
+                    </div>
+                </article>
+
+            </section>
+        </div>
+
+        <!-- ko if: totalExcludedTaxes() ===  0 -->
+        <footer class="bookwize-sidebar-total">
+            <div class="bookwize-sidebar-total-inner">
+                <span data-bind="translate: 'grandTotal'" ></span>
+            </div>
+            <div class="bookwize-sidebar-total-inner">
+                <div class="bookwize-price bookwize-price-line-through" data-bind="visible: totalCost() !== totalCostWithoutDiscount() , money: totalCostWithoutDiscount()"></div>
+                <div class="bookwize-price bookwize-price-big" data-bind="money: totalCost()"></div>
+                <div class="bookwize-tax" data-bind="translate:'allTaxesIncluded'"></div>
+            </div>
+        </footer>
+        <!-- /ko -->
+        <!-- ko ifnot: totalExcludedTaxes() ===  0 -->
+        <footer class="bookwize-sidebar-total">
+            <div class="bookwize-sidebar-footer">
+                <div class="bookwize-sidebar-total-inner">
+                    <span data-bind="translate: 'grandTotal'" ></span>
+                </div>
+                <div class="bookwize-sidebar-total-inner">
+                    <div class="bookwize-price bookwize-price-line-through" data-bind="visible: totalCost() !== totalCostWithoutDiscount() , money: totalCostWithoutDiscount()"></div>
+                    <div class="bookwize-price bookwize-price-big" data-bind="money: totalCost()"></div>
+                </div>
+            </div>
+
+            <div class="bookwize-sidebar-total-inner bookwize-sidebar-total-inner--fees" data-bind="translate: 'extraFees'"></div>
+
+            <!-- ko foreach: excludedTaxesCheckIn() -->
+            <div class="bookwize-sidebar-footer bwl-sidebar-footer--tax">
+                <div class="bookwize-sidebar-total-inner">
+                    <span data-bind="translate: category"></span>
+                </div>
+                <div class="bookwize-sidebar-total-inner">
+                    <div class="bookwize-price" data-bind="money: amount"></div>
+                    <div class="bookwize-tax bookwize-tax--small" data-bind="translate:'payableAtCheckIn'"></div>
+                </div>
+            </div>
+            <!-- /ko -->
+            <!-- ko foreach: excludedTaxesCheckOut() -->
+            <div class="bookwize-sidebar-footer bookwize-sidebar-footer--tax">
+                <div class="bookwize-sidebar-total-inner">
+                    <span data-bind="translate: category"></span>
+                </div>
+                <div class="bookwize-sidebar-total-inner">
+                    <div class="bookwize-price" data-bind="money: amount"></div>
+                    <div class="bookwize-tax bookwize-tax--small" data-bind="translate:'payableAtCheckOut'"></div>
+                </div>
+            </div>
+            <!-- /ko -->
+        </footer>
+        <!-- /ko -->    
+
+        <!-- ko if: isDifferentCurrency() -->
+        <div class="">
+            <div class="message alert alert-warning">
+                <p data-bind="translate: 'differentCurrencyAlert'"></p>
+            </div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: step3.bookingProcess().isOnline -->
+        <footer class="bookwize-sidebar-rules active">
+            <div class="bookwize-toggle" data-target=".bookwize-sidebar-rules-body">
+                <div class="bookwize-sidebar-rules-header" data-bind="translate:'polices'"></div>
+                <div class="text-right bookwize-sidebar-rules-header-arrow">
+                    <i class="material-icons up-arrow">&#xE313;</i>
+                    <i class="material-icons down-arrow">&#xE316;</i>
+                </div>
+            </div>
+            <div class="bookwize-sidebar-rules-body">
+                <div class="bookwize-sidebar-rules-label" data-bind="translate:'cancellationPolicy'"></div>
+                <div data-bind="html: cancellationPolicy"></div>
+                <div class="bookwize-sidebar-rules-label" data-bind="translate:'paymentPolicy'"></div>
+                <div data-bind="html: paymentText"></div>
+            </div>
+        </footer>
+        <!-- /ko -->
+    </section>
+
+</aside>

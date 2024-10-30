@@ -1,0 +1,186 @@
+﻿<div data-bind="if: isAuthenticated">
+    <header class="main-title">
+        <span data-bind="translate: 'account'"></span>
+    </header>
+    <div class="bookwize-account-container">
+
+        <div data-bind="with: reservation().customer">
+            <div data-bind="visible: !$parent.customerEdit()">
+                <div class="customer-edit-wrapper">
+                    <div class="grid">
+
+                        <!-- ko if: title -->
+                        <div class="grid__item one-fifth palm--one-whole">
+                            <label for="title" data-bind="translate: 'title'"></label>
+                            <span class="customer-details-text" data-bind="text: IBE.Utils.translate('title-' + title().toLowerCase())"></span>
+                        </div>
+                        <!-- /ko -->
+                        <!-- ko if: firstName -->
+                        <div class="grid__item two-fifths palm--one-whole">
+                            <label for="firstName" data-bind="translate: 'label_firstName'"></label>
+                            <span class="customer-details-text" data-bind="text: firstName"></span>
+                        </div>
+                        <!-- /ko -->
+                        <!-- ko if: lastName -->
+                        <div class="grid__item two-fifths palm--one-whole">
+                            <label for="lastName" data-bind="translate: 'label_lastName'"></label>
+                            <span class="customer-details-text" data-bind="text: lastName"></span>
+                        </div>
+                        <!-- /ko -->
+                        <!-- ko if: email -->
+                        <div class="grid__item one-half palm--one-whole">
+                            <label for="email" data-bind="translate: 'label_email'"></label>
+                            <span class="customer-details-text" data-bind="text: email"></span>
+                        </div>
+                        <!-- /ko -->
+                        <!-- ko if: phone -->
+                        <div class="grid__item one-half palm--one-whole">
+                            <label data-bind="translate: 'telephone'"></label>
+                            <span class="customer-details-text" data-bind="text: phone"></span>
+                        </div>
+                        <!-- /ko -->
+                        <!-- ko if: mobile -->
+                        <div class="grid__item one-half palm--one-whole">
+                            <label data-bind="translate: 'mobile'"></label>
+                            <span class="customer-details-text" data-bind="text: mobile"></span>
+                        </div>
+                        <!-- /ko -->
+                        <!-- ko if: address -->
+                        <div class="grid__item one-half palm--one-whole">
+                            <label data-bind="translate: 'address'"></label>
+                            <span class="customer-details-text" data-bind="text: address"></span>
+                        </div>
+                        <!-- /ko -->
+                        <!-- ko if: city -->
+                        <div class="grid__item one-half palm--one-whole">
+                            <label data-bind="translate: 'label_city'"></label>
+                            <span class="customer-details-text" data-bind="text: city"></span>
+                        </div>
+                        <!-- /ko -->
+                        <!-- ko if: $data.countryName !== undefined && countryName -->
+                        <div class="grid__item one-half palm--one-whole">
+                            <label data-bind="translate: 'country'"></label>
+                            <span class="customer-details-text" data-bind="text: countryName"></span>
+                        </div>
+                        <!-- /ko -->
+                        <!-- ko if: birthdate -->
+                        <div class="grid__item one-half palm--one-whole">
+                            <label data-bind="translate: 'dateOfBirth'"></label>
+                            <span class="customer-details-text" data-bind="text:moment(birthdate()).format('L')"></span>
+                        </div>
+                        <!-- /ko -->
+                    </div>
+                </div>
+
+                <button data-bind="click: $parent.startEdit, translate: 'edit'" class="bookwize-button bookwize-button-edit bookwize-button-half"></button>
+
+            </div>
+
+
+            <div data-bind="visible: $parent.customerEdit()" class="form customer-edit-inaction">
+                <div class="customer-edit-wrapper--edit">
+                    <div class="grid">
+                        <div class="grid__item one-fifth  palm--one-whole">
+                            <div class="bookwize-row up bookwize-form-background">
+                                <label for="CustomerTitle" data-bind="translate: 'title'" class="bookwize-label"></label>
+                                <select id="CustomerTitle" data-bind="select2: { placeholder: IBE.Utils.translate('Select title'), allowClear: true} ,options:  titleOptions, value: title, optionsValue: 'key', optionsText: 'text'" name="payment_receipt" class="form-control"></select>
+
+                            </div>
+                        </div>
+                        <div class="grid__item two-fifths  palm--one-whole">
+                            <div class="bookwize-row  bookwize-form-background" data-bind="css:{'up':firstName() !== '' && firstName() !== undefined}">
+                                <label for="firstName" data-bind="translate: 'label_firstName'" class="bookwize-label"></label>
+                                <input type="text" class="bookwize-form-input editable" data-bind="value: firstName"
+                                        id="firstName" />
+                            </div>
+                        </div>
+                        <div class="grid__item two-fifths  palm--one-whole">
+                            <div class="bookwize-row  bookwize-form-background" data-bind="css:{'up':lastName() !== '' && lastName() !== undefined}">
+                                <label for="lastName" data-bind="translate: 'label_lastName'" class="bookwize-label"></label>
+                                <input type="text" class="bookwize-form-input editable" data-bind="value: lastName" id="lastName" />
+                            </div>
+                        </div>
+                        <div class="grid__item one-half palm--one-whole">
+                            <div class="bookwize-row  bookwize-form-background" data-bind="css:{'up':email() !== '' && email() !== undefined}">
+                                <label for="email" data-bind="translate: 'label_email'" class="bookwize-label"></label>
+                                <input type="text" class="bookwize-form-input editable" data-bind="value: email" id="email" />
+                            </div>
+                        </div>
+                        <div class="grid__item one-half palm--one-whole">
+                            <div class="bookwize-row  bookwize-form-background" data-bind="css:{'up':phone() !== '' && phone() !== undefined}">
+                                <label for="phone" data-bind="translate: 'telephone'" class="bookwize-label"></label>
+                                <input type="text" class="bookwize-form-input editable" data-bind="value: phone" id="phone">
+                            </div>
+                        </div>
+                        <div class="grid__item one-half palm--one-whole">
+                            <div class="bookwize-row  bookwize-form-background" data-bind="css:{'up':address() !== '' && address() !== undefined}">
+                                <label data-bind="translate: 'address'" for="address" class="bookwize-label"></label>
+                                <input type="text" class="bookwize-form-input editable" data-bind="value: address" id="address">
+                            </div>
+                        </div>
+                        <div class="grid__item one-half palm--one-whole">
+                            <div class="bookwize-row  bookwize-form-background" data-bind="css:{'up':city() !== '' && city() !== undefined}">
+                                <label data-bind="translate: 'label_city'" for="city" class="bookwize-label"></label>
+                                <input type="text" class="bookwize-form-input editable" data-bind="value: city" id="city">
+                            </div>
+                        </div>
+                        <div class="grid__item one-half palm--one-whole">
+                            <div class="bookwize-row  bookwize-form-background up">
+                                <label data-bind="translate: 'country'" for="country" class="bookwize-label"></label>
+                                <select data-bind="select2: { allowClear: true}, showSearch:1 , options: $parent.countries, optionsValue: 'code', optionsText: 'name', value: country"
+                                        class="bookwize-form-input editable" id="country"></select>
+                            </div>
+                        </div>
+                        <div class="grid__item one-half palm--one-whole">
+                            <div class="bookwize-row  bookwize-form-background up">
+                                <label data-bind="translate: 'dateOfBirth'" for="birthdate" class="bookwize-label"></label>
+                                <input data-bind="singleDatepicker: birthdate, date:birthdate, datepickerOptions:{pickerClass: 'birthday-picker alignLeft'}, lang: lang, theme:'cinamon'" id="birthdate" class="bookwize-form-input">
+
+                            </div>
+                        </div>
+                        <!--ko if:$root.customerConsents().length > 0-->
+                        <!--ko foreach:$root.customerConsents-->
+                        
+                        <div class="grid__item one-whole">
+                            <div class="bookwize-row up bookwize-form-background margin-bottom">
+                                <div class="bookwize-form-radio bookwize-flight">
+
+                                    <div class="input checkbox" style="padding-top: 0;">
+                                        <input type="checkbox" class="required bookwize-checkbox--hidden" data-bind="checked: value, attr: { id: 'consents' + $index()}" >
+                                        <label class="terms-conditions-label" data-bind="attr: { for: 'consents' + $index()}">
+                                            <span data-bind="html: title" ></span>
+                                        </label>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>   
+
+                        <!--/ko-->
+                        <!--/ko-->
+                    </div>
+                </div>
+                <button class="bookwize-button bookwize-button-cancel bookwize-button-half" data-bind="click: $parent.cancelEdit, translate: 'cancel'"></button>
+                <button class="bookwize-button bookwize-button-save bookwize-button-half" data-bind="click: $parent.updateCustomer, translate: 'save'"></button>
+                <div class="data-protection">
+                    <div class="main-title" data-bind="translate: 'exportDeleteDataTitle'"></div>
+                    <div class="main-text" data-bind="html: IBE.Utils.translate('exportDeleteDataText').format(IBE.Utils.translate('requestPersonalData'), IBE.Utils.translate('deletePersonalData'))"></div>
+
+                </div>
+            </div>
+
+        </div>
+        
+    </div>
+
+    <div data-bind="visible: hasMessage(), with: message()">
+        <div class="bookwize-message margin-top">
+            <p data-bind="css: 'alert-' + (severity() == 'error' ? 'danger' : severity())">
+                <span data-bind="translate: text()"></span>
+            </p>
+        </div>
+    </div>
+</div>
+
+

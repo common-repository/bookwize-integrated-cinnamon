@@ -1,0 +1,288 @@
+<section class="bookwize-membership-container bookwize-reservation" data-bind="with: membership, gaTrack: {title: 'Account Membership', path: '/account-membership'}" id="Account">
+    <div data-bind="if: isAuthenticated">
+
+
+
+        <div class="grid">
+            <div class="grid__item three-twelfths">
+
+                <div class="bookwize-submenu">
+
+                    <div class="bookwize-navbar-submenu">
+
+                        <div class="bookwize-nav nav-benefits" data-bind="click: function(){$parent.setStep('benefits')}">
+                            <span data-bind="translate: 'benefits'"></span><i class="material-icons">&#xE315;</i>
+                        </div>
+                        <div class="bookwize-nav nav-account" data-bind="click: function(){$parent.setStep('account')}">
+                            <span data-bind="translate: 'account'"></span><i class="material-icons">&#xE315;</i>
+                        </div>
+                        <div class="bookwize-nav nav-reservation" data-bind="click: function(){$parent.setStep('reservations')}">
+                            <span data-bind="translate: 'reservations'"></span><i class="material-icons">&#xE315;</i>
+                        </div>
+                        <div class="bookwize-nav nav-reservations" data-bind="click: logout, translate: 'logout'"></div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="grid__item desk--eight-twelfths nine-twelfths push--desk--one-twelfth">
+                <header class="main-title">
+                    <span data-bind="translate: 'account'"></span>
+                </header>
+                <div class="bookwize-account-container">
+
+                    <div data-bind="with: customer">
+                        <div data-bind="visible: !$parent.edit()">
+                            <div class="customer-edit-wrapper">
+                                <div class="grid">
+
+                                    <!-- ko if: title -->
+                                    <div class="grid__item one-fifth">
+                                        <label for="title" data-bind="translate: 'title'"></label>
+                                        <span class="customer-details-text" data-bind="text: IBE.Utils.translate('title-' + title().toLowerCase())"></span>
+                                    </div>
+                                    <!-- /ko -->
+                                    <!-- ko if: firstName -->
+                                    <div class="grid__item two-fifths">
+                                        <label for="firstName" data-bind="translate: 'label_firstName'"></label>
+                                        <span class="customer-details-text" data-bind="text: firstName"></span>
+                                    </div>
+                                    <!-- /ko -->
+                                    <!-- ko if: lastName -->
+                                    <div class="grid__item two-fifths">
+                                        <label for="lastName" data-bind="translate: 'label_lastName'"></label>
+                                        <span class="customer-details-text" data-bind="text: lastName"></span>
+                                    </div>
+                                    <!-- /ko -->
+                                    <!-- ko if: email -->
+                                    <div class="grid__item one-half">
+                                        <label for="email" data-bind="translate: 'label_email'"></label>
+                                        <span class="customer-details-text" data-bind="text: email"></span>
+                                    </div>
+                                    <!-- /ko -->
+                                    <!-- ko if: phone -->
+                                    <div class="grid__item one-half">
+                                        <label data-bind="translate: 'telephone'"></label>
+                                        <span class="customer-details-text" data-bind="text: phone"></span>
+                                    </div>
+                                    <!-- /ko -->
+                                    <!-- ko if: mobile -->
+                                    <div class="grid__item one-half">
+                                        <label data-bind="translate: 'mobile'"></label>
+                                        <span class="customer-details-text" data-bind="text: mobile"></span>
+                                    </div>
+                                    <!-- /ko -->
+                                    <!-- ko if: address -->
+                                    <div class="grid__item one-half">
+                                        <label data-bind="translate: 'address'"></label>
+                                        <span class="customer-details-text" data-bind="text: address"></span>
+                                    </div>
+                                    <!-- /ko -->
+                                    <!-- ko if: city -->
+                                    <div class="grid__item one-half">
+                                        <label data-bind="translate: 'label_city'"></label>
+                                        <span class="customer-details-text" data-bind="text: city"></span>
+                                    </div>
+                                    <!-- /ko -->
+                                    <!-- ko if: country -->
+                                    <div class="grid__item one-half">
+                                        <label data-bind="translate: 'country'"></label>
+                                        <span class="customer-details-text" data-bind="html: $parent.getCustomerCountry()"></span>
+                                    </div>
+                                    <!-- /ko -->
+                                    <!-- ko if: birthdate -->
+                                    <div class="grid__item one-half">
+                                        <label data-bind="translate: 'dateOfBirth'"></label>
+                                        <span class="customer-details-text" data-bind="text:moment(birthdate()).format('L')"></span>
+                                    </div>
+                                    <!-- /ko -->
+                                </div>
+                            </div>
+
+																																																						  
+                            <button data-bind="click: $parent.startEdit, translate: 'edit'" class="bookwize-button bookwize-button-edit bookwize-button-half"></button>
+
+                        </div>
+
+
+                        <div data-bind="visible: $parent.edit()" class="form customer-edit-inaction">
+                            <div class="customer-edit-wrapper--edit">
+                                <div class="grid">
+                                    <div class="grid__item one-fifth">
+                                        <div class="bookwize-row up bookwize-form-background">
+                                            <label for="CustomerTitle" data-bind="translate: 'title'" class="bookwize-label"></label>
+                                            <select id="CustomerTitle" data-bind="select2: { placeholder: IBE.Utils.translate('Select title'), allowClear: true} ,options:  titleOptions, value: title, optionsValue: 'key', optionsText: 'text'" name="payment_receipt" class="form-control"></select>
+
+                                        </div>
+                                    </div>
+                                    <div class="grid__item two-fifths">
+                                        <div class="bookwize-row  bookwize-form-background" data-bind="css:{'up':firstName() !== '' && firstName() !== undefined}">
+                                            <label for="firstName" data-bind="translate: 'label_firstName'" class="bookwize-label"></label>
+                                            <input type="text" class="bookwize-form-input editable" data-bind="value: firstName"
+                                                   id="firstName" />
+                                        </div>
+                                    </div>
+                                    <div class="grid__item two-fifths">
+                                        <div class="bookwize-row  bookwize-form-background" data-bind="css:{'up':lastName() !== '' && lastName() !== undefined}">
+                                            <label for="lastName" data-bind="translate: 'label_lastName'" class="bookwize-label"></label>
+                                            <input type="text" class="bookwize-form-input editable" data-bind="value: lastName" id="lastName" />
+                                        </div>
+                                    </div>
+                                    <div class="grid__item one-half">
+                                        <div class="bookwize-row  bookwize-form-background" data-bind="css:{'up':email() !== '' && email() !== undefined}">
+                                            <label for="email" data-bind="translate: 'label_email'" class="bookwize-label"></label>
+                                            <input type="text" class="bookwize-form-input editable" data-bind="value: email" id="email" />
+                                        </div>
+                                    </div>
+                                    <div class="grid__item one-half">
+                                        <div class="bookwize-row  bookwize-form-background" data-bind="css:{'up':phone() !== '' && phone() !== undefined}">
+                                            <label for="phone" data-bind="translate: 'telephone'" class="bookwize-label"></label>
+                                            <input type="text" class="bookwize-form-input editable" data-bind="value: phone" id="phone">
+                                        </div>
+                                    </div>
+                                    <div class="grid__item one-half">
+                                        <div class="bookwize-row  bookwize-form-background" data-bind="css:{'up':address() !== '' && address() !== undefined}">
+                                            <label data-bind="translate: 'address'" for="address" class="bookwize-label"></label>
+                                            <input type="text" class="bookwize-form-input editable" data-bind="value: address" id="address">
+                                        </div>
+                                    </div>
+                                    <div class="grid__item one-half">
+                                        <div class="bookwize-row  bookwize-form-background" data-bind="css:{'up':city() !== '' && city() !== undefined}">
+                                            <label data-bind="translate: 'label_city'" for="city" class="bookwize-label"></label>
+                                            <input type="text" class="bookwize-form-input editable" data-bind="value: city" id="city">
+                                        </div>
+                                    </div>
+                                    <div class="grid__item one-half">
+                                        <div class="bookwize-row  bookwize-form-background up">
+                                            <label data-bind="translate: 'country'" for="country" class="bookwize-label"></label>
+                                            <select data-bind="select2: { allowClear: true}, showSearch:1 , options: $parent.countries, optionsValue: 'code', optionsText: 'name', value: country"
+                                                    class="bookwize-form-input editable" id="country"></select>
+                                        </div>
+                                    </div>
+                                    <div class="grid__item one-half">
+                                        <div class="bookwize-row  bookwize-form-background up">
+                                            <label data-bind="translate: 'dateOfBirth'" for="birthdate" class="bookwize-label"></label>
+                                            <input data-bind="singleDatepicker: birthdate, date:birthdate, datepickerOptions:{pickerClass: 'birthday-picker alignLeft'}, lang: lang, theme:'cinamon'" id="birthdate" class="bookwize-form-input">
+
+                                        </div>
+                                    </div>
+                                    <!--ko if:$parent.customerConsents().length > 0-->
+                                    <!--ko foreach:$parent.customerConsents-->
+
+                                    <div class="grid__item one-whole">
+                                        <div class="bookwize-row up bookwize-form-background margin-bottom">
+                                            <div class="bookwize-form-radio bookwize-flight">
+
+                                                <div class="input checkbox" style="padding-top: 0;">
+                                                    <input type="checkbox" class="required bookwize-checkbox--hidden" data-bind="checked: value, attr: { id: 'consents' + $index()}">
+                                                    <label class="terms-conditions-label" data-bind="attr: { for: 'consents' + $index()}">
+                                                        <span data-bind="html: title"></span>
+                                                    </label>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--/ko-->
+                                    <!--/ko-->
+                                </div>
+                            </div>
+                            <button class="bookwize-button bookwize-button-cancel bookwize-button-half" data-bind="click: $parent.cancelEdit, translate: 'cancel'"></button>
+                            <button class="bookwize-button bookwize-button-save bookwize-button-half" data-bind="click: $parent.save, translate: 'save'"></button>
+                            <div class="data-protection">
+                                <div class="main-title" data-bind="translate: 'exportDeleteDataTitle'"></div>
+                                <div class="main-text" data-bind="html: IBE.Utils.translate('exportDeleteDataText').format(IBE.Utils.translate('requestPersonalData'), IBE.Utils.translate('deletePersonalData'))"></div>
+
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid membership-registration" data-bind="visible: show()">
+                <div class="form grid__item one-half bookwize-change-password">
+                    <header class="main-title">
+                        <span data-bind="translate: 'changePassword'"></span>
+                    </header>
+                    <div class="bookwize-row  bookwize-form-background" data-bind="css:{'up':oldPassword() !== '' && oldPassword() !== null}">
+                        <label for="oldPassword" data-bind="translate: 'oldPassword'" class="bookwize-label"></label>
+                        <input id="oldPassword" type="password"
+                               data-bind="textInput: oldPassword" class="bookwize-form-input editable" />
+								  
+																																					  
+																															 
+																		
+																												
+																																	 
+								  
+						   
+																																					  
+																																   
+																		   
+																												   
+								  
+																									  
+							  
+																										  
+																											
+									 
+								  
+																																																			
+																												
+																																	 
+				   
+                    </div>
+                    <div class="bookwize-row  bookwize-form-background" data-bind="css:{'up':newPassword() !== '' && newPassword() !== null}">
+                        <label for="newPassword" data-bind="translate: 'newPassword'" class="bookwize-label"></label>
+                        <input id="newPassword" type="password"
+                               data-bind="textInput: newPassword" class="bookwize-form-input editable" />
+                        <div data-bind='component: {name: "passwordstrength-widget", params: { value: newPassword()}}'></div>
+                    </div>
+
+                    <div class="bookwize-row  bookwize-form-background" data-bind="css:{'up':newPassword() !== '' && newPassword() !== null}">
+                        <label for="retypePassword" data-bind="translate: 'retypePassword'" class="bookwize-label"></label>
+                        <input id="retypePassword" type="password"
+                               data-bind="textInput: retypePassword" class="bookwize-form-input editable" />
+                    </div>
+                    <div class="password-messages" data-bind="visible: newPassword() != null">
+
+                        <ul data-bind="foreach: passwordMessage, visible: newPassword() != null ">
+                            <li data-bind="translate: $data" class="password-messages-element"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form grid__item one-third bookwize-change-password password-must-contain">
+                    <div class="note">
+                        <label data-bind="translate: 'passwordMustContain'"></label>
+																	   
+							
+                    </div>
+                    <ul class="password-requirements">                        
+                        <li id="capital" data-bind="css:{'requirement': true, 'validation-passed': passwordRequirements()!==null && passwordRequirements().hasUpperCase, 'requirements-error': passwordRequirements()!==null && !passwordRequirements().hasUpperCase}, translate: 'atLeastOneCapital'"></li>                               
+                        
+                        <li id="small" data-bind="css:{'requirement': true, 'validation-passed': passwordRequirements()!==null && passwordRequirements().hasLowerCase, 'requirements-error':passwordRequirements()!==null && !passwordRequirements().hasLowerCase}, translate: 'atLeastOneSmall'"></li>
+                        
+                        <li id="number" data-bind="css:{'requirement': true, 'validation-passed': passwordRequirements()!==null && passwordRequirements().hasNumber, 'requirements-error':passwordRequirements()!==null && !passwordRequirements().hasNumber}, translate: 'atLeastOneNumber'"></li>
+                        
+                        <li id="min" data-bind="css:{'requirement': true, 'validation-passed': passwordRequirements()!==null && passwordRequirements().aboveMin, 'requirements-error':passwordRequirements()!==null && !passwordRequirements().aboveMin}, translate: 'minCharacters'"></li>
+
+                     </ul>
+                </div>
+                <div class="one-half margin-auto">
+                    <button data-bind="click: toggleChangePassword(), translate: 'cancel', visible: show()" class="bookwize-button bookwize-button-change margin-top bookwize-button-half"></button>
+                    <button class="bookwize-button bookwize-button-save margin-top bookwize-button-half"
+                            data-bind="click: changePassword, translate: 'changePassword', enable: isPasswordValid"></button>
+                </div>
+            </div>
+            <div data-bind="visible: hasMessage(), with: message()">
+                <div class="bookwize-message margin-top">
+                    <p data-bind="css: 'alert-' + (severity() == 'error' ? 'danger' : severity())">
+                        <span data-bind="translate: text()"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+

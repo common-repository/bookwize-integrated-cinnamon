@@ -1,0 +1,98 @@
+﻿﻿<div class="bookwize-membership-container" data-bind="gaTrack: { action:'send', command: 'pageview', data: '/claim-membership' }, with:membership.claimMembership">
+
+    <script id="IBEValidationMessage" type="text/html">
+        <div class="bookwize-message">
+            <div class="bookwize-alert-validation-message" data-bind="validationMessage: field"></div>
+        </div>
+    </script>
+
+    <section class="booking-form">
+
+        <header class="text-center main-title">
+
+            <span data-bind="translate: 'claimMembership'"></span>
+
+        </header>
+ 
+
+        <form role="form" method="post" data-bind="if: apiResponse() !== true">
+        
+                <div class="bookwize-message margin-top">
+                    <p class="bookwize-info">
+                        <span data-bind="translate:'accountErrorMessage'"></span>
+                    </p>
+                </div>
+          
+            <div data-bind="validationOptions: { messageTemplate: 'IBEValidationMessage' }">
+
+                <div class="grid">
+                    <div class="grid__item one-half">
+                        <div class="bookwize-row required up bookwize-form-background" data-bind="css:{'up':firstName() !== '' && firstName() !== undefined}">
+                            <label for="firstName" data-bind="translate: 'label_firstName'" class="bookwize-label"></label>
+                            <input id="firstName" data-bind="value: firstName" type="text" name="contact_firstname" class="bookwize-form-input editable">
+                        </div>
+                    </div>
+                    <div class="grid__item one-half">
+                        <div class="bookwize-row required up bookwize-form-background" data-bind="css:{'up':lastName() !== '' && lastName() !== undefined}">
+                            <label for="lastName" data-bind="translate: 'label_lastName'" class="bookwize-label"></label>
+                            <input id="lastName" data-bind="value: lastName" type="text" name="contact_lastname" class="bookwize-form-input editable">
+                        </div>
+                    </div>
+
+                    <div class="grid__item one-half">
+
+                        <div class="bookwize-row required up bookwize-form-background" data-bind="css:{'up':email() !== '' && email() !== undefined}">
+                            <label for="email" data-bind="translate: 'label_email'" class="bookwize-label"></label>
+                            <input id="email" data-bind="value: email" type="email" name="contact_email" class="bookwize-form-input editable">
+                        </div>
+                    </div>
+                    <div class="grid__item one-half">
+                        <div class="bookwize-row required up bookwize-form-background" data-bind="css:{'up':telephone() !== '' && telephone() !== undefined}">
+                            <label for="telephone" data-bind="translate: 'telephone'" class="bookwize-label"></label>
+                            <input id="telephone" data-bind="value: telephone" type="text" name="telephone" class="bookwize-form-input editable">
+                        </div>
+                    </div>
+                    <div class="grid__item one-half">
+                        <div class="bookwize-row required up bookwize-form-background" data-bind="css:{'up':dateOfArrival() !== '' && dateOfArrival() !== undefined}">
+                            <label for="dateOfArrival" data-bind="translate: 'dateOfArrival'" class="bookwize-label"></label>
+                            <input data-bind="singleDatepicker: dateOfArrival, date:dateOfArrival, datepickerOptions:{pickerClass: 'birthday-picker alignLeft'}, lang: lang, theme:'cinamon'" id="dateOfArrival" class="bookwize-form-input">
+
+
+                        </div>
+                    </div>
+                    <div class="grid__item one-half">
+                        <div class="bookwize-row  up bookwize-form-background" data-bind="css:{'up':reservationCode() !== '' && reservationCode() !== undefined}">
+                            <label for="reservationCode" data-bind="translate: 'bookingNumber'" class="bookwize-label"></label>
+                            <input id="reservationCode" data-bind="value: reservationCode" name="reservationCode" class="bookwize-form-input editable">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+          
+
+            <div class="grid">
+                <div class="grid__item">
+                    <button class="bookwize-button bookwize-button-primary margin-top" data-bind="click: submit, translate: 'submit', enable: ready()"></button>
+                </div>
+            </div>
+            
+        </form>
+        <div data-bind="visible: apiResponse() !== null">
+            <div class="bookwize-message margin-top">
+                <p data-bind="css: 'alert-' + (apiResponse()? 'success' : 'danger')">
+                    <!-- ko if: apiResponse()-->
+                    <span data-bind="translate:'formSuccess'"></span>
+                    <!-- /ko -->
+                    <!-- ko if: !apiResponse()-->
+                    <span data-bind="translate:'formFail'"></span>
+                    <!-- /ko -->
+                </p>
+            </div>
+        </div>
+            <div class="bookwize-membership-link" data-bind="translate:'alreadyMember', click:function(){IBEStepsMain.setStep('login');}"></div>
+      
+    </section>
+
+</div>

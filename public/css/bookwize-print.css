@@ -1,0 +1,11 @@
+@media print {
+    #btnPrint, #Currency {
+        display: none;
+    }
+    .bookwize-step4-text {
+        border-bottom: none;
+    }
+    header, footer{
+        display: none;
+    }
+}

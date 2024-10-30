@@ -1,0 +1,427 @@
+
+<div class="step2-container">
+
+
+    <div class="bookwize-sidebar bookwize-sidebar-horizontal">
+
+        <section data-template="partials/templates/guestpreferences_a.html" id="GuestPreferences"></section>
+    </div>
+    <div data-bind="visible: ready()" style="display: none" class="step2-main-content-full">
+
+
+
+        <div data-bind="visible: hasMessage()">
+            <div class="bookwize-message">
+                <span data-bind="css: 'alert-' + (message().severity() == 'error' ? 'danger' : message().severity())">
+                    <span data-bind="text: message().text()"></span>
+                </span>
+            </div>
+        </div>
+        <!-- ko ifnot: showTabs -->
+        <div class="bookwize-messages" data-bind="css:{'disabled': preferencesChanged()}">
+        <!-- ko if: isDifferentCurrency() -->
+
+        <div class="bookwize-message margin-bottom">
+            <div class="alert-warning">
+                <span data-bind="translate: 'differentCurrencyAlert'"></span>
+            </div>
+        </div>
+        <!-- /ko -->
+        <div data-bind="if: hotel().availability() == IBE.Config.hotelAvailability.CannotHost">
+            <div class="bookwize-message margin-bottom">
+                <div class="bookwize-message-availability">
+                    <span data-bind="translate: 'cannotHost'"></span>
+                    <span data-bind="translate: 'cannotHostInfo'"></span>
+                </div>
+            </div>
+            <div class="text-center bookwize-message-button">
+                <a class="bookwize-button bookwize-button-primary" href="?page=1" data-bind="translate:'searchAgain'"></a>
+            </div>
+        </div>
+
+        <div data-bind="if: hotel().availability() == IBE.Config.hotelAvailability.HotelIsClosed">
+            <div class="bookwize-message margin-bottom">
+                <div class="bookwize-message-availability">
+                    <span data-bind="translate: IBE.Utils.translate('HotelIsClosedFromTo').format( moment(IBE.Data.HotelInfo.Info.ClosedDates[0].ClosedFrom).format('LL'), moment(IBE.Data.HotelInfo.Info.ClosedDates[0].ClosedTo).format('LL') )"></span>
+                </div>
+                <div class="text-center bookwize-message-button">
+                    <a class="bookwize-button bookwize-button-primary" href="?page=1" data-bind="translate:'searchAgain'"></a>
+                </div>
+            </div>
+        </div>
+        <div data-bind="ifnot: hotel().availability() == IBE.Config.hotelAvailability.CannotHost || hotel().availability() == IBE.Config.hotelAvailability.HotelIsClosed">
+            <div class="bookwize-message margin-bottom">
+                <div class="bookwize-message-availability">
+                    <span data-bind="translate: 'noRoomsToHandleRequest'"></span>
+                    <div class="text-center bookwize-message-button">
+                        <a class="bookwize-button bookwize-button-primary" href="?page=1" data-bind="translate:'searchAgain'"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <!-- /ko -->
+        <!-- ko if: showTabs -->
+        <div id="Tabs" data-bind="foreach: request().hotelResults(), roomSelectionTabs: '.tab-rooms', tabOptions: { selected: activeTabIndex(), active: activeTabIndex() }, css:{'disabled': preferencesChanged() }">
+
+
+            <div data-bind="foreach: requestedRooms()">
+
+                <div class="room-tab bookwize-room-wrapper" data-bind="attr: { id : 'tab-'+roomIndex() }, visible: $root.activeTabIndex() + 1 === roomIndex()">
+                    <div class="bookwize-message">
+                        <div class="alert-danger" data-bind="visible: !isVisible()">
+                            <span data-bind="translate: 'noRoomsToHandleRequest'"></span>
+                        </div>
+                        <div class="text-center bookwize-message-button">
+                            <a class="bookwize-button bookwize-button-primary" href="?page=1" data-bind="translate:'searchAgain',visible: !isVisible()"></a>
+                        </div>
+                    </div>
+
+                    <section data-bind="foreach: roomResults()" class="bookwize-room-list">
+
+                        <article class="bookwize-room-row" data-bind="visible: isVisible, attr: { 'data-room-index' : roomIndex(), 'data-room-id' : roomId() }, css : {'available-upon-request' : IBE.Config.roomAvailability[availabilityStatus] == IBE.Config.roomAvailability['UponRequest']}">
+                            <div class="grid">
+
+                                <div class="grid__item three-twelfths palm--one-whole" data-target="room-info">
+                                    <div data-bind="if: info().photos[0]">
+                                        <div data-bind="with: info().photos[0]">
+                                            <div class="bookwize-room-thumb" data-bind="backgroundImage: url, backgroundImageOptions: {height: $root.roomImageHeight}, magnificPopUpItems: {}, galleryItems: $parent.info().photos"></div>
+                                        </div>
+                                    </div>
+
+                                    <div data-bind="ifnot: info().photos[0]">
+                                        <div class="bookwize-room-thumb" data-bind="backgroundImage: IBEConfig.roomBackgroundImage, backgroundImageOptions: {height: $root.roomImageHeight}, click: $root.popup().toggle.bind($data, $data)"></div>
+                                    </div>
+
+                                </div>
+
+                                <div class="grid__item nine-twelfths  palm--one-whole">
+                                    <!-- data-target="room-info" -->
+                                    <header class="bookwize-room-title" data-bind="click: $root.popup().toggle.bind($data)">
+
+                                        <span data-bind="text: info().name, attr: {lang: $root.lang}" class="room-title-name"></span>
+                                        <!-- ko if:availability !== -5 -->
+                                        <div data-bind="visible: availableRooms > 0 && availableRooms <= 3" class="bookwize-room-badge bookwize-room-badge-red">
+                                            <div class="remaining-rooms">
+                                                <!-- ko if: availableRooms == 1 -->
+                                                <span data-bind="translate: 'lastRoom'"></span>
+                                                <!-- /ko -->
+                                                <!-- ko if: availableRooms > 1 -->
+                                                <span data-bind="text:availableRooms"></span>
+                                                <span data-bind="translate: 'roomsRemaining'"></span>
+                                                <!-- /ko -->
+                                            </div>
+                                        </div>
+                                        <!-- /ko -->
+                                    </header>
+                                    <div class="bookwize-room-desc">
+                                        <div class="grid">
+                                            <div class="grid__item three-quarters">
+                                                
+                                                        <span class="bookwize-readmore-container"  data-bind="readMore:info().description"></span>
+
+                                            </div>
+                                            <div class="grid__item  one-quarter">
+                                                
+                                                        <!-- ko with:info -->
+                                                        <!-- ko foreach: attributes-->
+                                                        <!-- ko if:value !== ""-->
+                                                        <div class="bookwize-room-attributes">
+                                                            <i class="material-icons">&#xE315;</i><span data-bind="html:value"></span>
+                                                            <!-- ko if: code === 'Size'-->
+                                                            <span>m<sup>2</sup></span>
+                                                            <!--/ko-->
+                                                        </div>
+                                                        <!--/ko-->
+                                                        <!--/ko-->
+                                                        <div class="bookwize-room-attributes">
+                                                            <i class="material-icons">&#xE315;</i><span data-bind="translate:'maxGuests'"></span> :
+                                                            <span data-bind="text:maxGuests"></span>
+
+                                                        </div>
+                                                        <div class="bookwize-room-attributes">
+                                                            <i class="material-icons">&#xE315;</i><span data-bind="translate:'minGuests'"></span> :
+                                                            <span data-bind="text:minGuests"></span>
+
+                                                        </div>
+                                                        <!--/ko-->
+                                                    
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <aside class="room-availability-restrictions" data-bind="if: availabilityRestrictions.length > 0">
+                                        <div class="bookwize-info margin-top">
+                                            <span data-bind="foreach: availabilityRestrictions">
+                                                <!-- ko foreach: text -->
+                                                <span data-bind="html: $data"></span>
+                                                <!-- /ko -->
+                                            </span>
+                                        </div>
+                                    </aside>
+                             
+                                    <div class="bookwize-tabs" data-bind="css:{'no-priices':availabilityStatus === 'NoPrices'}">
+                                        <!-- ko if:availability !== -5 -->
+                                        <div class="bookwize-tab-header">
+                                            <div class="bookwize-tab-name active" data-bind="translate:'rateplans', attr: { 'data-target': '#tab-1-' + roomIndex() + roomId(), id:'parent-tab-1-'  + roomIndex() + roomId()}"></div>
+                                            <div class="bookwize-tab-name" data-bind="translate:'availability', attr: { 'data-target': '#tab-2-'  + roomIndex() + roomId(), id:'parent-tab-2-'  + roomIndex() + roomId()}"></div>
+                                        </div>
+                                        <!-- /ko -->
+                                        <div class="bookwize-tab active" data-bind="attr:{id:'tab-1-' + roomIndex() + roomId()}">
+                                            <div>
+                                                <!-- ko if:bookingAction() !== 3-->
+                                                
+                                                    <!-- ko if: (availability !== IBE.Config.roomAvailability.NoAvailability && bookingAction() != 1) -->
+                                                <div class="bookwize-room-request">
+                                                    <span data-bind="translate: 'roomAvailableUponRequest'"></span>
+                                                    </div>
+                                                    <!-- /ko -->
+                                                    <!-- ko if:availability === -5 -->
+                                                <div class="bookwize-room-request">
+                                                    <span class="bookwize-room-request-not-available">
+                                                        <button class="bookwize-button bookwize-call-button" data-bind="click: function(){$('#CallUsPopUp').modal('show');}">
+                                                            <span data-bind="translate: 'button.CallUs'"></span>
+
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                                    <!-- /ko -->
+                                                    <!-- ko if: (availability === IBE.Config.roomAvailability.NoAvailability && bookingAction() != 1) -->
+
+                                                    <div class="bookwize-room-request available-upon-request-message">
+                                                        <span data-bind="translate: 'requestStep2WarningMessage'"></span>
+                                                        <a class="bookwize-tab-name-activate" data-bind="translate: 'requestStep2ViewAvailable', attr: { 'data-target': '#tab-2-'  + roomIndex() + roomId(), 'data-value': '#parent-tab-2-'  + roomIndex() + roomId()}">
+                                                        </a>
+                                                    </div>
+
+                                                    <!-- /ko -->
+                                                
+                                                <!-- /ko -->
+                                                <div data-bind="visible: alternativeBoard()">
+                                                    <div class="bookwize-message">
+                                                        <span class="alert-danger">
+                                                            <span data-bind="translate: 'antautou'"></span>: <span data-bind="text: boardName()"></span>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <section data-bind="foreach: rateplans" class="bookwize-room-rateplan-list">
+
+                                                    <div data-bind="visible: isVisible, click: $parent.setRatePlanId, attr:{'data-rateplan-id' : ratePlanId, 'data-room-id' : $parent.roomId() }, css: { 'active' : ratePlanId() == $parent.ratePlanId() }" class="bookwize-room-rateplan-list-row" data-target="room-rateplans">
+                                                        <div class="grid grid--middle">
+                                                            <div class="grid__item one-half">
+                                                                <div class="bookwize-rateplan-name bookwize-rateplan-name-text bookwize-toggle" data-bind="attr: { 'data-target': '.bookwize-rate-details-' + ratePlanId() + '-' + $parent.roomId()}">
+                                                                    <span data-bind="text: info().name"></span>
+                                                                    <span class="bookwize-room-badge bookwize-room-badge-green" data-bind="visible: info().isFreeCancellation, translate: 'freeCancellation'"></span>
+                                                                    <span class="bookwize-room-badge bookwize-room-badge-blue" data-bind="visible: ($parent.bestRatePlanId() === ratePlanId() && $parent.rateplans().length > 1 &&  $parents[1].isBestValue().id === $parent.roomId()), translate: 'bestAvailableRate'"></span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="grid__item one-half">
+                                                                <div data-bind="foreach: roomBoards" class="bookwize-room-booking-actions bookwize-room-price">
+
+                                                                    <div data-bind="visible: isSelected">
+                                                                        <div class="bookwize-room-booking-actions">
+                                                                            <span data-bind="visible: showPrices,css:{bookwizePriceNotAvailable: bookingAction() !== 3}">
+
+                                                                                <!-- ko if: $parent.price() < $parent.priceWithoutDiscount() -->
+                                                                                <span class="bookwize-price bookwize-price-daily bookwize-price-line-through" data-bind="money: (priceWithoutDiscount()/$root.request().nights()) "></span>
+                                                                                <!-- /ko -->
+                                                                                <!-- ko if: $root.request().nights() > 1 -->
+                                                                                <span class="bookwize-price bookwize-price-daily bookwize-price-discount" data-bind="money:averageDailyRate"></span> /<span class="bookwize-price bookwize-price-daily bookwize-price-discount" data-bind="translate:'night'"></span>
+
+                                                                                <!-- /ko -->
+
+                                                                                <span class="bookwize-price" data-bind="money: price"></span>
+
+                                                                            </span>
+                                                                        </div>
+
+                                                                        <div data-bind="visible: bookingAction() > 0" class="bookwize-room-booking-actions">
+                                                                            <div class="book-room-buttons">
+                                                                                <span data-bind="visible: bookingAction() == 3" class="form-group">
+                                                                                    <button class="bookwize-button bookwize-book-button" data-bind="click: $root.selectRoom">
+                                                                                        <span data-bind="translate: 'button.Book'"></span>
+
+                                                                                    </button>
+                                                                                </span>
+
+                                                                                <span data-bind="visible: bookingAction() == 2" class="form-group">
+                                                                                    <button class="bookwize-button bookwize-request-button" data-bind="click: $root.selectRoom">
+                                                                                        <span data-bind="translate: 'button.Request'"></span>
+
+                                                                                    </button>
+                                                                                </span>
+
+                                                                                <span data-bind="visible: bookingAction() == 1" class="form-group">
+                                                                                    <button class="bookwize-button bookwize-call-button" data-bind="click: function(){$('#CallUsPopUp').modal('show');}">
+                                                                                        <span data-bind="translate: 'button.CallUs'"></span>
+
+                                                                                    </button>
+                                                                                </span>
+
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+                                                        <div data-bind="css:'bookwize-rate-details-' + ratePlanId() + '-' + $parent.roomId()" class="bookwize-rate-details">
+                                                            <div data-bind="html: info().description"></div>
+                                                            <div>
+                                                                <div class="bookwize-rate-details-row">
+                                                                    <span data-bind="translate: 'dailyBreakDown'" class="bookwize-rate-details-title"></span>
+                                                                    <table class="bookwize-breakdown-table">
+
+                                                                        <tbody data-bind="foreach: rateBreakDown().weeks">
+                                                                            <tr>
+
+                                                                                <!-- ko foreach: $data -->
+                                                                                <td data-bind="attr : { 'class' : status }">
+                                                                                    <div class="cell">
+                                                                                        <div data-bind="text:date.format('ddd')" class="weekday"></div>
+                                                                                        <div data-bind="text: date.format('DD/MM')" class="date"></div>
+                                                                                    </div>
+                                                                                    <div class="cell">
+                                                                                        <div data-bind="money: price, visible: price > 0" class="price"></div>
+                                                                                    </div>
+                                                                                </td>
+                                                                                <!-- /ko -->
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                                <div class="bookwize-rate-details-row" data-bind="visible: info().cancellationRules.length > 0 || info().paymentRules.length > 0">
+                                                                    <span class="bookwize-rate-details-title" data-bind="translate:'termsConditions'"></span>
+                                                                    <div class="bookwize-rate-details-container">
+                                                                        <span class="bookwize-rate-details-container-title" data-bind="translate: 'polices'"></span>
+
+                                                                        <div data-bind="foreach: info().paymentRules">
+                                                                            <span class="bookwize-rate-details-container-text" data-bind="html: text"></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="bookwize-rate-details-container">
+                                                                        <div class="bookwize-rate-details-container-title" data-bind="translate:'cancellationPolicy'"></div>
+                                                                        <div data-bind="foreach: info().cancellationRules">
+                                                                            <span class="bookwize-rate-details-container-text" data-bind="html: text"></span>
+                                                                        </div>
+                                                                    </div>
+
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+
+
+
+
+                                            </div>
+                                        </div>
+                                        <div class="bookwize-tab" data-bind="attr:{id:'tab-2-'  + roomIndex() + roomId()}">
+                                            <div class="bookwize-room-availability">
+
+                                                <div class="availability-calendars" id="AvailabilityCalendar" data-bind="availabilityCalendar: [$parents[2].request().checkIn(), $parents[2].request().checkOut()], lang: $parents[2].lang(), availability: step1.hotel().availability, displayNotAvailable: IBE.Utils.getReservationSetting($root, 'displayNotAvailable')"></div>
+
+
+                                                <div class="bookwize-availability-legend">
+                                                    <div class="bookwize-availability-legend-item">
+                                                        <div class="bookwize-available bookwize-available-icon"></div>
+                                                        <div class="bookwize-available" data-bind="translate: 'availableDates'"></div>
+
+                                                    </div>
+                                                    <div class="bookwize-availability-legend-item">
+                                                        <div class="bookwize-selected bookwize-selected-icon"></div>
+                                                        <div class="bookwize-selected" data-bind="translate: 'selectedDates'"></div>
+                                                    </div>
+
+                                                    <div class="bookwize-availability-legend-item">
+                                                        <div class="bookwize-not-available bookwize-not-available-icon"></div>
+                                                        <div class="bookwize-not-available" data-bind="translate: 'noAvailablity'"></div>
+                                                    </div>
+                                                    <div class="bookwize-availability-legend-item">
+                                                        <div class="bookwize-last-room bookwize-last-room-icon"></div>
+                                                        <div class="bookwize-last-room" data-bind="translate: 'lastRoom'"></div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+                        </article>
+
+                        <!-- ko if: isFiltered() -->
+                        <div class="room-separator"></div>
+                        <!-- /ko -->
+
+                    </section>
+
+                </div>
+            </div>
+
+        </div>
+        <!-- /ko -->
+
+
+    </div>
+
+    <div id="CallUsPopUp" class="bookwize-modal" tabindex="-1" role="dialog" aria-labelledby="CallUsPopUp" aria-hidden="true">
+        <div class="bookwize-modal-inner eight-twelfths">
+
+
+            <section>
+                <div class="text-right">
+                    <button type="button" class="bookwize-button no-outline" data-dismiss="modal" aria-hidden="true">
+                        <i class="material-icons">&#xE5CD;</i>
+                    </button>
+                </div>
+                <article class="bookwize-modal-content">
+
+                    <header class="bookwize-modal-title" data-bind="text: hotelInfo().name"></header>
+
+                    <div class="bookwize-modal-text">
+
+                        <div data-bind="translate: 'button.CallUs'"></div>
+                        <div>
+                            <a data-bind="attr: { href: 'tel:' + hotelInfo().address.phone}, html: hotelInfo().address.phone"></a>
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+        </div>
+    </div>
+
+</div>
+
+<div class="bookwize-progress-bar-inner">
+    <!-- ko if:step2-->
+    <span class="progress-bar" data-bind="attr:{id: 'progress' + '-' + step2.selectedRooms().length + '-' + step1.requestedRooms().length}"></span>
+    <!--/ko-->
+</div>
+<div class="bookwize-progress-bar-text">
+    <!-- ko if:step2-->
+    <!-- ko if:step2.selectedRooms().length === 0-->
+    <span data-bind="text: (step2.selectedRooms().length + 1 )  + '/' + step1.requestedRooms().length"></span>
+    <!--/ko-->
+    <!-- ko if:step2.selectedRooms().length > 0-->
+    <span data-bind="text: (step2.selectedRooms().length )  + '/' + step1.requestedRooms().length"></span>
+    <!--/ko-->
+    <!--/ko-->
+</div>
+

@@ -1,0 +1,435 @@
+<section class="bookwize-membership-container" data-bind="membership.currentReservation()!=null">
+    <div class="grid" data-bind="with: membership.currentReservation().reservation">
+        <div class="grid__item three-twelfths">
+            <div class="bookwize-submenu">          
+                <div class="bookwize-navbar-submenu">
+
+                    <div class="bookwize-nav nav-benefits" data-bind="click: function(){$parent.setStep('benefits')}">
+                        <span data-bind="translate: 'benefits'"></span><i class="material-icons">&#xE315;</i>
+                    </div>
+                    <div class="bookwize-nav nav-account" data-bind="click: function(){$parent.setStep('account')}">
+                        <span data-bind="translate: 'account'"></span><i class="material-icons">&#xE315;</i>
+                    </div>
+                    <div class="bookwize-nav nav-reservations" data-bind="click: function(){$parent.setStep('reservations')}">
+                        <span data-bind="translate: 'reservations'"></span><i class="material-icons">&#xE315;</i>
+                    </div>
+                    <div class="bookwize-nav nav-reservation" data-bind="click: function(){membership.logout()}, translate: 'logout'"></div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="grid__item desk--eight-twelfths nine-twelfths push--desk--one-twelfth">
+          
+            <section class="bookwize-view-reservation">
+                <header class="main-title margin-bottom" data-bind="translate: 'bookingSummary'"></header>
+                <div class="bookwize-view-reservation-container">
+                    <div class="bookwize-view-reservation-row">
+                        <div class="grid grid--full grid--middle">
+                            <div class="grid__item one-fifth">
+                                <div class="bookwize-reservation-item">
+                                    <div class="label" data-bind="translate: 'reservationCode'"></div>
+                                    <!-- ko if:pmsCode -->
+                                    <div class="reservation-controler" data-bind="text: pmsCode"></div>
+                                    <!-- /ko-->
+                                    <!-- ko if: !pmsCode -->
+                                    <div class="reservation-controler" data-bind="text: code"></div>
+                                    <!-- /ko-->
+                                </div>
+                            </div>
+                            <div class="grid__item one-fifth">
+                                <div class="bookwize-reservation-item">
+                                    <div class="label" data-bind="translate: 'pinCode'"></div>
+                                    <div class="reservation-controler" data-bind="text: id"></div>
+                                </div>
+                            </div>
+                            <div class="grid__item one-fifth">
+                                <div class="bookwize-reservation-item">
+                                    <div class="label" data-bind="translate: 'arrival'"></div>
+                                    <div class="reservation-controler"
+                                         data-bind="date: checkIn, dateFormat: 'DD/MM/YYYY'"></div>
+                                </div>
+                            </div>
+                            <div class="grid__item one-fifth no-border">
+                                <div class="bookwize-reservation-item">
+                                    <div class="label" data-bind="translate: 'departure'"></div>
+                                    <div class="reservation-controler"
+                                         data-bind="date: checkOut, dateFormat: 'DD/MM/YYYY'"></div>
+                                </div>
+                            </div>
+                            <div class="grid__item one-fifth no-border">
+                                <div class="bookwize-reservation-item" data-bind="css: status()">
+                                    <div class="label" data-bind="translate: 'status'"></div>
+                                    <div data-bind="html: IBE.Utils.translate('reservationStatus.' + status())" class="reservation-controler"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <header class="main-title margin-bottom" data-bind="translate: 'guestInformation'"></header>
+                <div class="bookwize-view-reservation-container">
+                    <div class="bookwize-view-reservation-row">
+                        <div class="customer-edit-wrapper" data-bind="with:customer">
+                            <div class="grid">
+
+                                <!-- ko if: title -->
+                                <div class="grid__item one-fifth">
+                                    <label for="title" data-bind="translate: 'title'"></label>
+                                    <span class="customer-details-text" data-bind="text: title"></span>
+                                </div>
+                                <!-- /ko -->
+                                <!-- ko if: firstName -->
+                                <div class="grid__item two-fifths">
+                                    <label for="firstName" data-bind="translate: 'First Name'"></label>
+                                    <span class="customer-details-text" data-bind="text: firstName"></span>
+                                </div>
+                                <!-- /ko -->
+                                <!-- ko if: lastName -->
+                                <div class="grid__item two-fifths">
+                                    <label for="lastName" data-bind="translate: 'Last Name'"></label>
+                                    <span class="customer-details-text" data-bind="text: lastName"></span>
+                                </div>
+                                <!-- /ko -->
+                                <!-- ko if: email -->
+                                <div class="grid__item one-half">
+                                    <label for="email" data-bind="translate: 'label_email'"></label>
+                                    <span class="customer-details-text" data-bind="text: email"></span>
+                                </div>
+                                <!-- /ko -->
+                                <!-- ko if: phone -->
+                                <div class="grid__item one-half">
+                                    <label data-bind="translate: 'telephone'"></label>
+                                    <span class="customer-details-text" data-bind="text: phone"></span>
+                                </div>
+                                <!-- /ko -->
+                                <!-- ko if: mobile -->
+                                <div class="grid__item one-half">
+                                    <label data-bind="translate: 'Mobile'"></label>
+                                    <span class="customer-details-text" data-bind="text: mobile"></span>
+                                </div>
+                                <!-- /ko -->
+                                <!-- ko if: address -->
+                                <div class="grid__item one-half">
+                                    <label data-bind="translate: 'Address'"></label>
+                                    <span class="customer-details-text" data-bind="text: address"></span>
+                                </div>
+                                <!-- /ko -->
+                                <!-- ko if: city -->
+                                <div class="grid__item one-half">
+                                    <label data-bind="translate: 'City'"></label>
+                                    <span class="customer-details-text" data-bind="text: city"></span>
+                                </div>
+                                <!-- /ko -->
+                                <!-- ko if: country -->
+                                <div class="grid__item one-half">
+                                    <label data-bind="translate: 'Country'"></label>
+                                    <span class="customer-details-text" data-bind="html: membership.getCustomerCountry()"></span>
+                                </div>
+                                <!-- /ko -->
+                                <!-- ko if: birthdate -->
+                                <div class="grid__item one-half">
+                                    <label data-bind="translate: 'Date of Birth'"></label>
+                                    <span class="customer-details-text" data-bind="text:moment(birthdate()).format('L')"></span>
+                                </div>
+                                <!-- /ko -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ko if:  typeof creditCardLastDigits !== 'undefined' && creditCardLastDigits != '' -->
+                <header class="main-title margin-bottom" data-bind="translate: 'billingInformation'"></header>
+                <div class="bookwize-view-reservation-container">
+                    <div class="bookwize-view-reservation-row">
+                        <div class="bookwize-view-reservation-row">
+                            <div class="customer-edit-wrapper">
+                                <div class="grid">
+                                    <div class="grid__item one-fifth">
+                                        <label for="title" data-bind="translate: 'label_cardNumber'"></label>
+                                        <span class="customer-details-text">
+                                            **** <span data-bind="text: creditCardLastDigits"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /ko -->
+                <header class="main-title margin-bottom" data-bind="translate: 'accomotadionSummary'"></header>
+                <div class="bookwize-view-reservation-row">
+                    <div class="bookwize-step4-inner">
+
+                        <section data-bind="foreach: rooms" class="bookwize-reservation-rooms">
+
+                            <article class="bookwize-reservation-room">
+                                <div class="grid">
+                                    <div class="grid__item one-quarter">
+                                        <div class="bookwize-room-small-thumb" data-bind="backgroundImage: roomPhoto, backgroundImageOptions: {width: $root.roomImageWidth, height: $root.roomImageHeight, mode:'crop'}"></div>
+
+                                    </div>
+                                    <div class="grid__item two-quarters">
+                                        <div class="bookwize-reservation-room-index">
+                                            <span data-bind="translate: 'room'"></span> <span data-bind="text: $index()+1"></span>
+                                        </div>
+                                        <div class="bookwize-reservation-room-inner">
+                                            <div class="bookwize-reservation-room-inner-label" data-bind="translate:'guests'"></div>
+                                            <div class="bookwize-reservation-room-inner-text">
+                                                <span data-bind="text: adults"></span>
+
+                                                <!-- ko if: adults == 1 -->
+                                                <span data-bind="translate: 'adult'"></span>
+                                                <!-- /ko -->
+                                                <!-- ko if: adults > 1 -->
+                                                <span data-bind="translate: 'adults'"></span>
+                                                <!-- /ko -->
+                                                <!-- ko if: children > 0 -->
+                                                ,<span data-bind="text: children"></span> <span data-bind="translate: 'children'"></span>
+                                                <!-- /ko -->
+                                                <!-- ko if: infants > 0 -->
+                                                ,<span data-bind="text: infants"></span> <span data-bind="translate: 'infants'"></span>
+                                                <!-- /ko -->
+                                            </div>
+                                        </div>
+                                        <div class="bookwize-reservation-room-inner">
+                                            <div class="bookwize-reservation-room-inner-label" data-bind="translate:'room'"></div>
+                                            <div class="bookwize-reservation-room-inner-text" data-bind="text: name"></div>
+                                        </div>
+                                        <div class="bookwize-reservation-room-inner">
+                                            <div class="bookwize-reservation-room-inner-label" data-bind="translate:'mealplan'"></div>
+                                            <div class="bookwize-reservation-room-inner-text" data-bind="text: board.name"></div>
+                                        </div>
+                                        <div class="bookwize-reservation-room-inner">
+                                            <div class="bookwize-reservation-room-inner-label" data-bind="translate:'rateplan'"></div>
+                                            <!-- ko if: ratePlanId == 0 -->
+                                            <span class="bookwize-reservation-room-inner-text" data-bind="translate: 'standardRate'"></span>
+                                            <!-- /ko -->
+                                            <!-- ko if: ratePlanId > 0 -->
+                                            <span class="bookwize-reservation-room-inner-text" data-bind="text: ratePlanName"></span>
+                                            <!-- /ko -->
+                                        </div>
+                                    </div>
+                                    <div class="grid__item one-quarter">
+                                        <span data-bind="money: roomCostBeforeDiscount, visible:roomCostBeforeDiscount > roomCost" class="bookwize-price bookwize-price-line-through text-right"></span>
+                                        <span data-bind="money: roomCost" class="bookwize-price text-right"></span>
+                                    </div>
+                                </div>
+                            </article>
+
+                        </section>
+                        <section class="bookwize-reservation-supplements" data-bind="visible: supplements.length > 0">
+
+                            <div data-bind="translate: 'extraSupplements'" class="bookwize-reservation-supplements-title"></div>
+
+
+                            <div data-bind="foreach: supplements">
+                                <article class="bookwize-reservation-supplement">
+                                    <div class="grid">
+                                        <div class="grid__item two-thirds">
+                                            <div class="bookwize-reservation-supplement-name">
+                                                <span data-bind="text: name"></span>
+                                                <span>&times;<span data-bind="text: quantity()"></span></span>
+                                            </div>
+                                        </div>
+                                        <div class="grid__item one-third">
+                                            <div class="bookwize-price text-right" data-bind="money: totalPrice()"></div>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        </section>
+                        <aside class="bookwize-reservation-totals">
+
+                            <div class="grid">
+                                <div class="one-half push--one-half">
+                                    <div class="grid">
+                                        <div class="grid__item one-whole text-right">
+
+
+                                            <div class="bookwize-grand-total">
+                                                <span data-bind="translate: 'total'"></span> :
+                                                <div class="bookwize-price bookwize-price-big" data-bind="money: totalCost"></div>
+
+                                            </div>
+
+                                            <div class="bookwize-tax" data-bind="translate:'allTaxesIncluded'"></div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </aside>
+                    </div>
+                    <section class="bookwize-step4-policy">
+
+                        <header data-bind="translate: 'cancellationPolicy'"></header>
+                        <div class="body" data-bind="html: reservationTerms"></div>
+
+                    </section>
+                </div>
+         
+
+                <!-- ko if: !pmsOwner -->
+
+
+
+                <div data-bind="foreach: availableActions">
+
+                    <div data-bind="if: $data == 'CancelledReservation' || $data == 'CancelledRequest'">
+                        <header class="bookwize-step4-title no-border margin-top" data-bind="translate: 'cancel'"></header>
+                        <div class="bookwize-cancel-reservation">
+
+                            <!-- ko ifnot: $parent.allowCancellation() -->
+                            <div data-bind="translate: 'denyCancellationMessage'"></div>
+                            <!-- /ko -->
+                            <!-- ko if: $parent.allowCancellation() -->
+                            <form role="form" class="">
+
+                                <div data-bind="translate: 'cancelReservationNote'"></div>
+
+                                <div data-bind="visible: $parent.cancellationCost() == 0, translate: 'cancelFreeCharge'"></div>
+
+                                <div data-bind="visible: $parent.cancellationCost() > 0">
+                                    <span data-bind="translate: 'cancelCharge'"></span> <span data-bind="money: $parent.cancellationCost()"></span>
+                                </div>
+                                <span data-bind="translate: 'enterThisCode'"></span> : <span class="bookwize-code" data-bind="text: $parent.code"></span>
+
+
+                                <div class="bookwize-row">
+                                    <div>
+                                        <input id="ReservationCode" data-bind="value: membership.cancelCode, attr: { placeholder: IBE.Utils.translate('bookingNumber') }" type="text" name="reservation_code" class="bookwize-form-input editable bookwize-form-background margin-bottom bookwize-cancel-form-row">
+
+                                        <button class="bookwize-cancel-form-row-last bookwize-button bookwize-button-primary" data-bind="enable: membership.cancelCodeIsValid, css:$root.cancelCodeIsValid, translate: 'reservationStatusAction.'+ $data,
+                                                                        click: function(data, event) { membership.currentReservation().confirmReservationAction($data, membership.currentReservation().reservation(), membership.creditCard())}"></button>
+                                        <div data-bind="visible: $root.cancelCodeIsValid">
+                                            <div data-bind="visible:membership.hasMessage(), with:membership.message()">
+                                                <div class="bookwize-message">
+                                                    <p data-bind="css: 'alert-' + (severity() == 'error' ? 'danger' : severity())">
+                                                        <span data-bind="text: text()"></span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div data-bind="validationOptions: { messageTemplate: 'IBEValidationMessage' }"></div>
+
+
+
+                            </form>
+                            <!-- /ko -->
+
+                        </div>
+
+                    </div>
+
+                    <div data-bind="if: $data == 'ConfirmedReservation'">
+
+                        <div class="bookwize-confirm-reservation">
+
+
+                            <form role="form" data-bind="with: membership.creditCard" method="post">
+
+                                <div data-bind="validationOptions: { messageTemplate: 'IBEValidationMessage' }" class="bookwize-payment-container">
+                                    <div class="bookwize-booking-payment-images">
+                                        <div class="grid">
+                                            <div class="grid__item one-half">
+                                                <span data-bind="translate:'acceptedCards'"></span>
+                                                <div data-bind="foreach: acceptedCards">
+                                                    <img data-bind="src: 'https://bookwizecdn.azureedge.net/images/'+ $data +'.png', attr: { alt : $data }, css: {'active' : $data.toLowerCase() == $parent.cardType() }">
+                                                </div>
+                                            </div>
+                                            <div class="grid__item one-half">
+                                                <span data-bind="translate:'securedBy'"></span>
+                                                <a href="https://seal.godaddy.com/verifySeal?sealID=7vQJ4rQFdsC8yOrNxRUGO4usyXWXUDOYP87dJysG4SvfsUPZyY0vhW8Zn0o" target="_blank">
+                                                    <img src="https://bookwizecdn.azureedge.net/images/ssl.gif" alt="SSL" />
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="bookwize-booking-payment-footer-myreservation">
+
+                                        <div class="grid">
+                                            <div class="three-sixths grid__item">
+                                                <div class="bookwize-row required bookwize-form-background" data-bind="css:{'up':cardHolder() !== '' && cardHolder() !== undefined}">
+                                                    <label for="CustomerCardHolder" data-bind="translate: 'label_cardHolderName'" class="bookwize-label"></label>
+                                                    <input id="CustomerCardHolder" data-bind="value: cardHolder, valueUpdate: 'keyup'" autocomplete="cc-name" type="text" name="card_holder" class="bookwize-form-input editable">
+
+                                                </div>
+                                            </div>
+                                            <div class="grid__item two-sixths">
+                                                <div class="bookwize-row required card-expire bookwize-form-input bookwize-form-background up">
+                                                    <label for="CardExpirationYear" data-bind="translate: 'label_expires'" class="bookwize-label"></label>
+                                                    <div class="selection-row">
+                                                        <select id="CardExpirationYear" data-bind="select2: {allowClear: true} ,options:  yearOptions(), value: cardExpirationYear, optionsValue: $data, optionsText: $data"></select>
+                                                    </div>
+                                                    <div class="selection-row">
+                                                        <select id="CardExpirationMonth" data-bind="select2: {allowClear: true} ,options:  monthOptions(), value: cardExpirationMonth, optionsValue: $data, optionsText: $data"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="grid">
+                                            <div class="three-sixths grid__item">
+                                                <div class="bookwize-row required bookwize-form-background" data-bind="css:{'up':cardNumber() !== '' && cardNumber() !== undefined}">
+                                                    <label for="CustomerNumber" data-bind="translate: 'label_cardNumber'" class="bookwize-label"></label>
+                                                    <input id="CustomerNumber" data-bind="value: cardNumber, valueUpdate: 'keyup'" type="text" name="card_number" class="bookwize-form-input editable">
+                                                    <div class="bookwize-accepted-cards">
+                                                        <div data-bind="foreach: acceptedCards">
+                                                            <img data-bind="src: 'https://bookwizecdn.azureedge.net/images/'+ $data +'.png', attr: { alt : $data }, css: {'active' : $data.toLowerCase() == $parent.cardType() }">
+                                                        </div>
+                                                        <i class="material-icons" data-bind="css: {'active' : cardType() === undefined }">&#xE8A1;</i>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="two-sixths grid__item">
+                                                <div class="bookwize-row required  bookwize-form-background" data-bind="css:{'up':cardVerification() !== '' && cardVerification() !== undefined}">
+                                                    <label for="CardVerification" data-bind="translate: 'label_cvc'" class="bookwize-label"></label>
+                                                    <input id="CardVerification" data-bind="value: cardVerification, valueUpdate: 'keyup'" type="password" name="card_verification" maxlength="4" class="bookwize-form-input editable">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div data-bind="validationOptions: { messageTemplate: 'IBEValidationMessage' }">
+
+                                            <div data-bind="visible: membership.hasMessage()">
+                                                <div class="bookwize-message bookwize-message-fullpage">
+
+                                                    <span data-bind="css: 'alert-' + (membership.message().severity() == 'error' ? 'danger' : membership.message().severity())">
+                                                        <span data-bind="text: membership.message().text()"></span>
+                                                    </span>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <button class="bookwize-button bookwize-button-primary hidden-print margin-top"
+                                data-bind="translate: 'reservationStatusAction.'+$parent, click:function(){ membership.confirmAction('ConfirmedReservation') }"></button>
+
+                            </form>
+
+
+
+                        </div>
+
+                    </div>
+                    <script id="IBEValidationMessage" type="text/html">
+                        <div class="bookwize-alert-validation-message" data-bind="validationMessage: field"></div>
+                    </script>
+                </div>
+
+                <!-- /ko -->
+
+            </section>
+
+
+        </div>
+
+    </div>
+</section>

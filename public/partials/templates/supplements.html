@@ -1,0 +1,127 @@
+<!--ko if: supplements().length > 0 && showSupplements()-->
+
+<section class="bookwize-supplements">
+
+    <header data-bind="translate: 'reservationExtrasSupplements'" class="bookwize-step3-title"></header>
+
+    <aside class="bookwize-info margin-top" data-bind="translate: 'supplementsLegendText'"></aside>
+
+
+    <div class="bookwize-step3-inner" id="accordion" role="tablist" aria-multiselectable="true" data-bind="foreach: supplements">
+        <div class="bookwize-supplements-inner">
+            <div class="bookwize-supplements-header bookwize-toggle" data-bind="attr:{'data-toggle':'#collapse' + $index()}">
+                <div class="grid  grid--middle">
+                    <div class="grid__item four-fifths">
+                        <div data-bind="visible:categoryName !== ''">
+                            <div class="bookwize-supplements-header-title" data-bind="text:categoryName"></div>
+                        </div>
+                        <div data-bind="visible:categoryName === ''">
+                            <div class="bookwize-supplements-header-title" data-bind="translate:'extraSupplements'"></div>
+                        </div>
+                    </div>
+                    <div class="grid__item bookwize-supplements-header-arrow one-fifth text-right">
+                        <i class="material-icons up-arrow">&#xE313;</i>
+                        <i class="material-icons down-arrow">&#xE316;</i>
+                    </div>
+                </div>
+
+            </div>
+            <div data-bind="attr: {'id':'collapse' + $index()}" class="bookwize-supplements-body">
+
+
+                <div class="bookwize-supplements-head">
+                    <div class="grid grid--narrow">
+                        <div class="four-eighths grid__item">
+
+                            <div class="bookwize-supplements-header-inner" data-bind="translate: 'extraSupplements'"></div>
+                        </div>
+                        <div class="three-eighths grid__item">
+                            <div class="bookwize-supplements-header-inner" data-bind="translate: 'select'"></div>
+
+                        </div>
+                        <div class="one-eighth grid__item text-right">
+                            <div class="bookwize-supplements-header-inner " data-bind="translate: 'total'"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bookwize-supplements-body">
+                    <!-- ko foreach: supplementResults -->
+                    <div data-bind="visible: visible  && canBeApplied($parents[1].bookingProcess().rooms())">
+                        <div class="grid">
+                            <div class="four-eighths grid__item">
+                                <span class="bookwize-supplement-name" data-bind="text: name, attr: { for : isUnique() ? 'supplement-'+supplementId() : '' }"></span>
+                                <span class="bookwize-supplement-desc">
+                                    <div data-bind="readMore: description" class="bookwize-readmore-container"></div>
+                                </span>
+                                <span class="bookwize-supplement-rules">
+                                    (<span data-bind="translate: 'supplement.' + pricingType()"></span>
+                                    <span data-bind="visible: timePricingUnit() != 'OneOff'">
+                                        / <span data-bind="translate: 'supplement.' + timePricingUnit()"></span>
+                                    </span>)
+                                </span>
+
+                            </div>
+                            <div class="four-eighths grid__item">
+
+                                <div class="bookwize-supplement-price-quantity ">
+                                    <!-- ko foreach: prices -->
+                                    <div data-bind="visible: price > 0" class="bookwize-supplement-price-quantity-inner">
+                                        <div class="bookwize-supplement-info supplement-quantity" data-bind="text: quantity()"></div>
+                                        <div class="bookwize-supplement-info supplement-price">
+                                            <div class="bookwize-price bookwize-price-black-small" data-bind="visible: price > 0">
+                                                <span data-bind="money: price"></span>
+                                            </div>
+                                            <!-- ko if: guestType.ageCategory -->
+                                            <span data-bind="translate: guestType.ageCategory"></span>
+                                            <!-- /ko -->
+                                        </div>
+                                        <div class="bookwize-supplement-info supplement-buttons" data-bind="visible: !$parent.isUnique()" class="quantity-btn-holder">
+
+                                            <div class="bookwize-supplement-button"
+                                                 data-bind="click: function(){removeSupplement()}, css: {'active' : quantity() > 0 }">
+                                                <i class="material-icons">&#xE15C;</i>
+                                            </div>
+                                            <div class="bookwize-supplement-button"
+                                                 data-bind="click:  function(){addSupplement()}, css: {'active' : quantity() < maxQuantity }">
+                                                <i class="material-icons">&#xE147;</i>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="bookwize-supplement-info bookwize-supplement-info__unique" data-bind="visible: $parent.isUnique()">
+                                            <input type="checkbox" class="bookwize-supplement-unique"
+                                                   data-bind="checked: isSelected, attr: { id : $parent.isUnique() ? 'supplement-'+$parent.supplementId() : '' }">
+                                            <label class="bookwize-supplement-unique-label" data-bind="attr: { for : $parent.isUnique() ? 'supplement-'+$parent.supplementId() : '' }"></label>
+                                        </div>
+                                    </div>
+                                    <div data-bind="visible: price === 0" class="bookwize-supplement-price-quantity-inner">
+                                        <input type="checkbox" class="bookwize-supplement-unique"
+                                               data-bind="checked: isSelected, attr: { id : $parent.supplementId() }">
+                                        <label class="bookwize-supplement-unique-label" data-bind="attr: { for : $parent.supplementId()}"></label>
+
+                                    </div>
+                                    <!-- /ko -->
+                                    <div class="text-right bookwize-supplement-price-quantity-inner">
+                                        <span class="bookwize-price bookwize-price-black" data-bind="visible: totalPrice() > 0, money: totalPrice()"></span>
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- /ko -->
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<!-- /ko -->
